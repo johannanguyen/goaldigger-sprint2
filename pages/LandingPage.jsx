@@ -6,6 +6,7 @@ export default function LandingPage() {
         <div>
             <h1>Landing Page</h1>
             <p>Featured stories, login buttons</p>
+            
         </div>
     );
 }

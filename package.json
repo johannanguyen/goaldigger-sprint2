@@ -28,5 +28,8 @@
       "@babel/preset-env",
       "@babel/preset-react"
     ]
+  },
+  "dependencies": {
+    "react-router-dom": "^5.2.0"
   }
 }
