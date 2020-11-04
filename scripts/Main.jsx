@@ -1,5 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Content from './Content';
+import LandingPage from '../pages/LandingPage';
 
-ReactDOM.render(<Content />, document.getElementById('content'));
+ReactDOM.render(<LandingPage />, document.getElementById('content'));
