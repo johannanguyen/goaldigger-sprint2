@@ -4,11 +4,11 @@ import HomePage from  './HomePage';
 import UserProfile from './UserProfile';
 
 export default function Content() {
-    
+    //<HomePage />
     return(
         <div>
             <LandingPage />
-            <HomePage />
+            
             <UserProfile />
         </div>
     );
