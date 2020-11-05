@@ -4,6 +4,8 @@ from flask import Flask, render_template
 import flask_socketio
 import flask_sqlalchemy
 
+print("This is a test")
+
 app = Flask(__name__)
 server_socket = flask_socketio.SocketIO(app)
 server_socket.init_app(app, cors_allowed_origins="*")
