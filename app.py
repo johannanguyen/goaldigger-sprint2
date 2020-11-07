@@ -1,9 +1,9 @@
 import os
+from os.path import join, dirname
 import flask
 from flask import Flask, render_template
 import flask_socketio
 import flask_sqlalchemy
-from os.path import join, dirname
 from dotenv import load_dotenv
 import models
 
@@ -24,6 +24,16 @@ db.app = app
 
 db.create_all()
 db.session.commit()
+
+NUM_USERS = 0
+
+@server_socket.on("connect")
+def on_connect():
+    global NUM_USERS
+    NUM_USERS += 1
+    
+    print("Someone connected!", NUM_USERS)
+    server_socket.emit("new_user", NUM_USERS, broadcast=True)
 
 @app.route("/", methods=["GET", "POST"])
 def hello():
