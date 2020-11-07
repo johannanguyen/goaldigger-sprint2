@@ -24,21 +24,27 @@ class Users(db.Model):
             self.fb_id = fb_id
         if img_url:
             self.img_url = img_url
-
-class Messages(db.Model):
-    '''Table for chat messages.'''
+            
+            
+class Goals(db.Model):
+    '''Table for goals'''
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(300))
-    date = db.Column(db.DateTime, default=datetime.now)
+    category = db.Column(db.String())
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    def __init__(self, text, user_id):
-        self.text = text
+    description = db.Column(db.String())
+    progress = db.Column(db.String())
+    date = db.Column(db.DateTime, default=datetime.now)
+    text = db.Column(db.String())
+    
+    def __init__(self, user_id, category, description, progress):
         self.user_id = user_id
-
-    def __repr__(self):
-        return "<Text: {}\nBy: {}>\n".format(self.text, self.user)
-
+        self.category = category
+        self.description = description
+        self.progress = progress
+        self.text = text
+        
+        
+"""
 class Posts(db.Model):
     '''Table for user posts'''
     id = db.Column(db.Integer, primary_key=True)
@@ -53,21 +59,21 @@ class Posts(db.Model):
         self.category = category
         self.title = title
         self.text = text
-        
-class Goals(db.Model):
-    '''Table for goals'''
+
+class Messages(db.Model):
+    '''Table for chat messages.'''
     id = db.Column(db.Integer, primary_key=True)
-    category = db.Column(db.String())
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    description = db.Column(db.String())
-    progress = db.Column(db.String())
+    text = db.Column(db.String(300))
     date = db.Column(db.DateTime, default=datetime.now)
-    
-    def __init__(self, user_id, category, description, progress):
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, text, user_id):
+        self.text = text
         self.user_id = user_id
-        self.category = category
-        self.description = description
-        self.progress = progress
+
+    def __repr__(self):
+        return "<Text: {}\nBy: {}>\n".format(self.text, self.user)
+        
         
 class Groups(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -91,9 +97,8 @@ class Groups_Users(db.Model):
     def __init__(self, user_id, group_id):
         self.user_id = user_id
         self.group_id = group_id
-        
-    
-'''
+
+
 Maybe this Enum is unnecesary.
 class Progress(Enum):
     IN_PROGRESS = "in progress"
