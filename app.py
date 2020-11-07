@@ -5,6 +5,7 @@ import flask_socketio
 import flask_sqlalchemy
 from os.path import join, dirname
 from dotenv import load_dotenv
+import models
 
 
 

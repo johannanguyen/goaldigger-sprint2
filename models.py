@@ -5,7 +5,7 @@ from enum import Enum
 
 #When someone logs in, check which auth method they used. If they used google, then check google_id to see if they had created an account. 
 #If there aren't any users with that google_id, create one. Same for facebook auth.
-class Users(db.model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(35), nullable=False)
     email = db.Column(db.String(100))
@@ -83,10 +83,14 @@ class Groups(db.Model):
         self.name = name
         self.sidebar_text = sidebar_text
         
-class Groups_Users(db.model):
+class Groups_Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    
+    def __init__(self, user_id, group_id):
+        self.user_id = user_id
+        self.group_id = group_id
         
     
 '''
