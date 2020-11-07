@@ -5,6 +5,33 @@ from enum import Enum
 
 #When someone logs in, check which auth method they used. If they used google, then check google_id to see if they had created an account. 
 #If there aren't any users with that google_id, create one. Same for facebook auth.
+
+#queries
+
+#single table
+#models.Users.query.filter_by(name="jokebot").first()
+#models.TABLENAME.query.filter_by(COLUMN = "VALUE YOU WANT").first() OR .all() depending if you want the first row or all of the rows
+
+#Join tables         TABLES YOU WANT
+#db.session.query(models.Texts, models.Users)\
+#.filter(models.Texts.user == models.Users.id)\
+#.order_by(models.Texts.date)\
+#.all()   OR .first()   depends on what you want again
+
+#when using the python shell to create the tables, call createDummyData() to input rows into the tables after creating the tables.
+#from command line: `python`, `import models`, `from app import db`, `db.create_all()`, `db.session.commit()`, `createDummyData()`, `exit()`
+
+def createDummyData():
+    db.session.add(Users("Johanna", "johanna@google.com", "I like coding"))
+    db.session.add(Users("Cristian", "cristian@google.com", "I like gaming"))
+    db.session.add(Users("Digna", "digna@google.com", "I like stuff"))
+    db.session.add(Users("Joey", "joey@google.com", "I like things"))
+    db.session.commit()
+    db.session.add(Goals(1, "Exercise", "I want to deadlift 250 pounds", "Started", "Really happy to start this new goal!"))
+    db.session.add(Goals(1, "Exercise", "I want to deadlift 250 pounds", "Completed", "Really happy to have achieved my goal!"))
+    db.session.add(Goals(2, "Work", "I want to solve 2 hard leetcodes a day", "Started", "I can do this!"))
+    db.session.commit()
+
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(35), nullable=False)
@@ -34,14 +61,14 @@ class Goals(db.Model):
     description = db.Column(db.String())
     progress = db.Column(db.String())
     date = db.Column(db.DateTime, default=datetime.now)
-    text = db.Column(db.String())
+    post_text = db.Column(db.String())
     
-    def __init__(self, user_id, category, description, progress):
+    def __init__(self, user_id, category, description, progress, post_text):
         self.user_id = user_id
         self.category = category
         self.description = description
         self.progress = progress
-        self.text = text
+        self.post_text = post_text
         
         
 
