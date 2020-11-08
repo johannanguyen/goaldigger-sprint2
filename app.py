@@ -100,9 +100,7 @@ def emit_newsfeed(channel, sid):
         {
             "all_ids": all_ids,
             "all_names": all_names,
-            "all_emails": all_emails,
             "all_images": all_images,
-            "all_bios": all_bios,
             "all_goal_ids": all_goal_ids,
             "all_categories": all_categories,
             "all_user_primary_ids": all_user_primary_ids,
@@ -114,7 +112,7 @@ def emit_newsfeed(channel, sid):
         sid,
     )
 
-    print(all_ids, all_names, all_emails, all_images, all_bios)
+    print(all_ids, all_names, all_images)
     
 
 @server_socket.on("connect")
