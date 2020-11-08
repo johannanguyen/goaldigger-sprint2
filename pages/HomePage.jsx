@@ -37,12 +37,11 @@ export default function Content() {
         <div>
             <h1>Home Page</h1>
             <h4>Category list will be on left side</h4>
-            { dbDescription.map((data, index) => (
+            { dbUserPrimary.map((data, index) => (
                 <div>
                     <p>
-                        {dbUserPrimary[index]}:
-                        {data}:  
-                        {dbPostText[index]}
+                        {data} {dbProgress[index]} a goal in <b>{dbCategory[index]}</b>: {dbDescription[index]}<br />
+                        "{dbPostText[index]}"
                     </p>
                 </div>)) }
 
