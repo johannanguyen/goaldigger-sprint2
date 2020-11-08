@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { clientSocket } from './Socket';
 
-export default function Content() {
+export default function Exercise() {
     
     return(
         <div>
