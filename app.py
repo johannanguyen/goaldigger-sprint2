@@ -5,7 +5,6 @@ from flask import Flask, render_template
 import flask_socketio
 import flask_sqlalchemy
 from dotenv import load_dotenv
-import models
 import requests
 from flask import request
 
@@ -26,9 +25,12 @@ db.app = app
 db.create_all()
 db.session.commit()
 
+import models
+
 NUM_USERS = 0
 
 EMIT_EXERCISE_NEWSFEED_CHANNEL = "homepage"
+GOOGLE_INFO_RECEIVED_CHANNEL = "google info received"
 
 def emit_newsfeed(channel, sid):
     all_ids = [
@@ -109,11 +111,36 @@ def emit_newsfeed(channel, sid):
     )
 
     print(all_ids, all_names, all_images)
+
+def push_new_user_to_db(email, username, image, is_signed_in, id_token):
+    db.session.add(models.Users(email, username, image, is_signed_in, id_token));
+    db.session.commit();
+
+@server_socket.on('new google user')
+def on_new_google_user(data):
+    print("Got an event for new google user input with data:", data)
+    push_new_user_to_db(data['email'], data['username'], data['image'], data['is_signed_in'], data['id_token'])
+    
+def emit_google_info(channel):
+        
+    all_usernames = [ \
+        names.name for names \
+        in db.session.query(models.Users).all()]
+    
+    all_images = [ \
+        images.img_url for images \
+        in db.session.query(models.Users).all()]
+        
+    server_socket.emit(channel, {
+        'allusernames' : all_usernames,
+        'allimages' : all_images,
+    })
     
 
 @server_socket.on("connect")
 def on_connect():
     emit_newsfeed(EMIT_EXERCISE_NEWSFEED_CHANNEL, request.sid)
+    emit_google_info(GOOGLE_INFO_RECEIVED_CHANNEL)
 
 
 @app.route("/", methods=["GET", "POST"])

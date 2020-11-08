@@ -22,10 +22,10 @@ from enum import Enum
 #from command line: `python`, `import models`, `from app import db`, `db.create_all()`, `db.session.commit()`, `createDummyData()`, `exit()`
 
 def createDummyData():
-    db.session.add(Users("Johanna", "johanna@google.com", "I like coding"))
-    db.session.add(Users("Cristian", "cristian@google.com", "I like gaming"))
-    db.session.add(Users("Digna", "digna@google.com", "I like stuff"))
-    db.session.add(Users("Joey", "joey@google.com", "I like things"))
+    # db.session.add(Users("Johanna", "johanna@google.com", "I like coding"))
+    # db.session.add(Users("Cristian", "cristian@google.com", "I like gaming"))
+    # db.session.add(Users("Digna", "digna@google.com", "I like stuff"))
+    # db.session.add(Users("Joey", "joey@google.com", "I like things"))
     db.session.commit()
     db.session.add(Goals(1, "Exercise", "I want to deadlift 250 pounds", "Started", "Really happy to start this new goal!"))
     db.session.add(Goals(1, "Exercise", "I want to deadlift 250 pounds", "Completed", "Really happy to have achieved my goal!"))
@@ -34,25 +34,21 @@ def createDummyData():
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(35), nullable=False)
-    email = db.Column(db.String(100))
-    google_id = db.Column(db.String())
-    fb_id = db.Column(db.String())
+    email = db.Column(db.String(200))
+    name = db.Column(db.String(50), nullable=False)
     img_url = db.Column(db.String())
-    bio = db.Column(db.String())
+    signed_in = db.Column(db.String(5))
+    google_id = db.Column(db.String(3000))
+    # fb_id = db.Column(db.String())
+    # bio = db.Column(db.String())
     
-    def __init__(self, name, email, bio, img_url=None, google_id=None, fb_id=None):
+    def __init__(self, email, name, img_url, signed_in, google_id):
         self.name = name
         self.email = email
-        self.bio = bio
-        if google_id:
-            self.google_id = google_id
-        if fb_id:
-            self.fb_id = fb_id
-        if img_url:
-            self.img_url = img_url
-            
-            
+        self.img_url = img_url
+        self.signed_in = signed_in
+        self.google_id = google_id
+        
 class Goals(db.Model):
     '''Table for goals'''
     id = db.Column(db.Integer, primary_key=True)
