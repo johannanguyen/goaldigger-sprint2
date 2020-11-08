@@ -28,9 +28,10 @@ db.session.commit()
 
 NUM_USERS = 0
 
-EMIT_EXERCISE_NEWSFEED_CHANNEL = "exercise"
+EMIT_EXERCISE_NEWSFEED_CHANNEL = "homepage"
 
 def emit_newsfeed(channel, sid):
+    
     all_ids = [
         DB_id.id
         for DB_id in db.session.query(models.Users).all()
@@ -40,26 +41,17 @@ def emit_newsfeed(channel, sid):
         for DB_name in db.session.query(models.Users).all()
     ]
 
-    all_emails = [
-        DB_email.email 
-        for DB_email in db.session.query(models.Users).all()
-    ]
-    
+
     all_images = [
         DB_img_url.img_url
         for DB_img_url in db.session.query(models.Users).all()
     ]
         
-    all_bios = [
-        DB_bio.bio
-        for DB_bio in db.session.query(models.Users).all()
-    ]
-    
     all_goal_ids = [
         DB_id.id
         for DB_id in db.session.query(models.Goals).all()
     ]
-    
+
     all_categories = [
         DB_category.category
         for DB_category in db.session.query(models.Goals).all()
@@ -70,10 +62,6 @@ def emit_newsfeed(channel, sid):
         for DB_user_primary_id in db.session.query(models.Goals).all()
     ]
 
-    all_goal_ids = [
-        DB_id.id
-        for DB_id in db.session.query(models.Goals).all()
-    ]
     
     all_descriptions = [
         DB_description.description
@@ -94,6 +82,7 @@ def emit_newsfeed(channel, sid):
         DB_post_text.post_text
         for DB_post_text in db.session.query(models.Goals).all()
     ]
+    
     
     server_socket.emit(
         channel,

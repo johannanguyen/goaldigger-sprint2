@@ -17,7 +17,7 @@ export default function HomePage() {
     
 
     useEffect(() => {
-      clientSocket.on("exercise", (data) => {
+      clientSocket.on("homepage", (data) => {
       setDbId(data.all_ids, []);
       setDbName(data.all_names, []);
       setDbEmail(data.all_emails, []);
