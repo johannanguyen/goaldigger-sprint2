@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { clientSocket } from '../scripts/Socket';
 
-export default function Content() {
+export default function HomePage() {
     const [dbId, setDbId] = useState([]);
     const [dbName, setDbName] = useState([]);
     const [dbEmail, setDbEmail] = useState([]);
