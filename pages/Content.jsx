@@ -9,8 +9,8 @@ export default function Content() {
     return(
         <div>
             <LandingPage />
-            <HomePage />
             <UserProfile />
+            <HomePage />
             <Exercise />
         </div>
     );
