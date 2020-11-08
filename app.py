@@ -6,7 +6,8 @@ import flask_socketio
 import flask_sqlalchemy
 from dotenv import load_dotenv
 import models
-
+import requests
+from flask import request
 
 
 app = Flask(__name__)
@@ -27,13 +28,99 @@ db.session.commit()
 
 NUM_USERS = 0
 
+EMIT_EXERCISE_NEWSFEED_CHANNEL = "exercise"
+
+def emit_newsfeed(channel, sid):
+    all_ids = [
+        DB_id.id
+        for DB_id in db.session.query(models.Users).all()
+    ]
+    all_names = [
+        DB_name.name
+        for DB_name in db.session.query(models.Users).all()
+    ]
+
+    all_emails = [
+        DB_email.email 
+        for DB_email in db.session.query(models.Users).all()
+    ]
+    
+    all_images = [
+        DB_img_url.img_url
+        for DB_img_url in db.session.query(models.Users).all()
+    ]
+        
+    all_bios = [
+        DB_bio.bio
+        for DB_bio in db.session.query(models.Users).all()
+    ]
+    
+    all_goal_ids = [
+        DB_id.id
+        for DB_id in db.session.query(models.Goals).all()
+    ]
+    
+    all_categories = [
+        DB_category.category
+        for DB_category in db.session.query(models.Goals).all()
+    ]
+    
+    all_user_primary_ids = [
+        DB_user_primary_id.user_id
+        for DB_user_primary_id in db.session.query(models.Goals).all()
+    ]
+
+    all_goal_ids = [
+        DB_id.id
+        for DB_id in db.session.query(models.Goals).all()
+    ]
+    
+    all_descriptions = [
+        DB_description.description
+        for DB_description in db.session.query(models.Goals).all()
+    ]
+    
+    all_progress = [
+        DB_progress.progress
+        for DB_progress in db.session.query(models.Goals).all()
+    ]
+    
+    # all_dates = [
+    #     DB_date.date
+    #     for DB_date in db.session.query(models.Goals).all()
+    # ]
+    
+    all_post_texts = [
+        DB_post_text.post_text
+        for DB_post_text in db.session.query(models.Goals).all()
+    ]
+    
+    server_socket.emit(
+        channel,
+        {
+            "all_ids": all_ids,
+            "all_names": all_names,
+            "all_emails": all_emails,
+            "all_images": all_images,
+            "all_bios": all_bios,
+            "all_goal_ids": all_goal_ids,
+            "all_categories": all_categories,
+            "all_user_primary_ids": all_user_primary_ids,
+            "all_descriptions": all_descriptions,
+            "all_progress": all_progress,
+            #"all_dates": all_dates,
+            "all_post_texts": all_post_texts
+        },
+        sid,
+    )
+
+    print(all_ids, all_names, all_emails, all_images, all_bios)
+    
+
 @server_socket.on("connect")
 def on_connect():
-    global NUM_USERS
-    NUM_USERS += 1
-    
-    print("Someone connected!", NUM_USERS)
-    server_socket.emit("new_user", NUM_USERS, broadcast=True)
+    emit_newsfeed(EMIT_EXERCISE_NEWSFEED_CHANNEL, request.sid)
+
 
 @app.route("/", methods=["GET", "POST"])
 def hello():
