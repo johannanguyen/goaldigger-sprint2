@@ -81,6 +81,7 @@ def emit_newsfeed(channel, sid):
         DB_post_text.post_text
         for DB_post_text in db.session.query(models.Goals).all()
     ]
+
     
     for db_users, db_goals in db.session.query(models.Users, models.Goals).filter(models.Users.id == models.Goals.user_id).order_by(models.Goals.date).all():
         all_ids.append(db_users.id)

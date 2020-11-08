@@ -40,7 +40,7 @@ export default function HomePage() {
             { dbUserPrimary.map((data, index) => (
                 <div>
                     <p>
-                        {data} {dbProgress[index]} a goal in <b>{dbCategory[index]}</b>: {dbDescription[index]}<br />
+                        {dbName[data-1]} {dbProgress[index]} a goal in <b>{dbCategory[index]}</b>: {dbDescription[index]}<br />
                         "{dbPostText[index]}"
                     </p>
                 </div>)) }
