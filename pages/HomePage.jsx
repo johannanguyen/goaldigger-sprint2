@@ -35,6 +35,34 @@ export default function HomePage() {
     
     return(
         <div className="root_container">
+            <div className="category_menu">
+                <a href="">
+                    <img src="https://i.ibb.co/xYVFr6J/gd-1-work.png"></img>
+                </a>
+                <a href="">
+                    <img src="https://i.ibb.co/d6srXGM/gd-2-school.png"></img>
+                </a>
+                <a href="">
+                    <img src="https://i.ibb.co/pndKdvW/gd-3-exercise.png"></img>
+                </a>
+                <a href="">
+                    <img src="https://i.ibb.co/q7WzpTz/gd-4-food.png"></img>
+                </a>
+                <a href="">
+                    <img src="https://i.ibb.co/QMgx3Q0/gd-5-art.png"></img>
+                </a>
+                <a href="">
+                    <img src="https://i.ibb.co/Pm9R7MP/gd-6-lifestyle.png"></img>
+                </a>
+                <a href="">
+                    <img src="https://i.ibb.co/Fx2JjyD/gd-7-finance.png"></img>
+                </a>
+                <a href="">
+                    <img src="https://i.ibb.co/K6GfqjV/gd-8-misc.png"></img>
+                </a>
+            </div>
+            
+            
             <h2>Home Page</h2>
             <h4>Category list will be on left side</h4>
             { dbUserPrimary.map((data, index) => (
