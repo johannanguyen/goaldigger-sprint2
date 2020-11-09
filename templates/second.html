@@ -1,14 +1,26 @@
 <html>
+   <head>
+        <style>
+            div.Invisible {
+                display: none;
+            }
+        </style>
+    </head>
     <body>
+      <h1>SECOND.HTML</h1>
       <script>
         function ChangePage() {
-          location.href="/" 
+          location.href="/main" 
           //<button  onclick="myFunction()">index.html</button>
         }
         </script>
         <h1>Page changed</h1>
-        <button  onclick="ChangePage()">index.html</button>
-        <div id="content2"></div>
+        <button  onclick="ChangePage()">main.html</button>
+        <div id="Content"></div>
+        <div class="Invisible">
+          
+            <h1>HIDDEN</h1>
+        </div>
         <script type="text/javascript" src="/static/script.js"></script>
     </body>
 </html>

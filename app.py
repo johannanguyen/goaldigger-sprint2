@@ -11,13 +11,18 @@ server_socket.init_app(app, cors_allowed_origins="*")
 
 
 @app.route("/", methods=["GET", "POST"])
-def hello():
+def index():
     """ Runs the app!!!"""
     return flask.render_template("index.html")
-    
-@app.route('/second')
+
+
+@app.route('/second', methods=["GET", "POST"])
 def second():
     return flask.render_template("second.html")
+    
+@app.route('/main', methods=["GET", "POST"])
+def main():
+    return flask.render_template("main.html")
 
 
 if __name__ == "__main__":
