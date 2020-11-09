@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 
 export default function AddGoal() {
@@ -16,7 +17,7 @@ export default function AddGoal() {
     const useStyles = makeStyles((theme) => ({
         formControl: {
         margin: theme.spacing(1),
-        minWidth: 250,
+        minWidth: 300,
         },
         selectEmpty: {
         marginTop: theme.spacing(2),
@@ -42,8 +43,8 @@ export default function AddGoal() {
             <h1>Add Goal Page</h1>
             <h3>User Name and Image here</h3>
 
-            <h4>Select a Category:</h4>
             <FormControl className={useStyles().formControl}>
+            <InputLabel htmlFor="age-native-simple">Select a Category</InputLabel>
                 <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -60,19 +61,23 @@ export default function AddGoal() {
                 <MenuItem value="Misc">Misc</MenuItem>
                 </Select>
             </FormControl>
-
-            <h4>Enter Goal:</h4>
-            <TextField
-                  id="outlined-basic"
-                  label="Enter your goal"
-                  value={goal}
-                  onChange={changeHandler_goal}
-                />
-            <Button variant="contained" 
-                color="primary"
-                onClick="clickHandler">
-                Add!
-            </Button>
+            <br />
+            
+            <FormControl className={useStyles().formControl}>
+                <TextField
+                      id="outlined-basic"
+                      label="Enter your goal"
+                      value={goal}
+                      onChange={changeHandler_goal}
+                    />
+                <br />
+                <Button variant="contained"
+                    color="primary"
+                    onClick="clickHandler"
+                    style={{backgroundColor: "0e99b6"}}>
+                    Add!
+                </Button>
+            </FormControl>
             
         </div>
     );
