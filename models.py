@@ -22,10 +22,10 @@ from enum import Enum
 #from command line: `python`, `import models`, `from app import db`, `db.create_all()`, `db.session.commit()`, `createDummyData()`, `exit()`
 
 def createDummyData():
-    # db.session.add(Users("Johanna", "johanna@google.com", "I like coding"))
-    # db.session.add(Users("Cristian", "cristian@google.com", "I like gaming"))
-    # db.session.add(Users("Digna", "digna@google.com", "I like stuff"))
-    # db.session.add(Users("Joey", "joey@google.com", "I like things"))
+    db.session.add(Users("johanna@google.com", "Johanna", "imgurl", "false", "I like coding"))
+    db.session.add(Users("cristian@google.com", "Cristian", "imgurl", "false", "I like gaming"))
+    db.session.add(Users("digna@google.com", "Digna", "imgurl", "false", "I like stuff"))
+    db.session.add(Users("joey@google.com", "Joey", "imgurl", "false", "I like things"))
     db.session.commit()
     db.session.add(Goals(1, "Exercise", "I want to deadlift 250 pounds", "Started", "Really happy to start this new goal!"))
     db.session.add(Goals(1, "Exercise", "I want to deadlift 250 pounds", "Completed", "Really happy to have achieved my goal!"))
@@ -48,7 +48,7 @@ class Users(db.Model):
         self.img_url = img_url
         self.signed_in = signed_in
         self.google_id = google_id
-        
+
 class Goals(db.Model):
     '''Table for goals'''
     id = db.Column(db.Integer, primary_key=True)

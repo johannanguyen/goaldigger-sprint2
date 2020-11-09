@@ -123,17 +123,13 @@ def on_new_google_user(data):
     
 def emit_google_info(channel):
         
-    all_usernames = [ \
-        names.name for names \
-        in db.session.query(models.Users).all()]
-    
-    all_images = [ \
-        images.img_url for images \
-        in db.session.query(models.Users).all()]
-        
+    all_users = [{
+        "username": user.name,
+        "img_url": user.img_url    
+        } for user in db.session.query(models.Users).all()]
+
     server_socket.emit(channel, {
-        'allusernames' : all_usernames,
-        'allimages' : all_images,
+        'allusers' : all_users
     })
     
 
