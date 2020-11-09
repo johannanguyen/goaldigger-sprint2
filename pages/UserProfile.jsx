@@ -16,12 +16,12 @@ export default function UserProfile() {
   getGoogleUserInfo();
   
     return(
-        <div>
-            <h1>User Profile</h1>
+        <div className="root_container">
+            <h2>User Profile</h2>
             {
               users.map((data,index) => (
                 <div key={index}>
-                  <h2>Username {data["username"]}</h2>
+                  <b>Username {data["username"]}</b>
                   <img src={data["img_url"]} alt="User PFP"/>
                 </div>
               ))

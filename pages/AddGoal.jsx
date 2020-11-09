@@ -39,46 +39,52 @@ export default function AddGoal() {
     };
     
     return(
-        <div>
-            <h1>Add Goal Page</h1>
-            <h3>User Name and Image here</h3>
-
-            <FormControl className={useStyles().formControl}>
-            <InputLabel htmlFor="age-native-simple">Select a Category</InputLabel>
-                <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={category}
-                onChange={changeHandler_category}
-                >
-                <MenuItem value="Work">Work</MenuItem>
-                <MenuItem value="School">School</MenuItem>
-                <MenuItem value="Exercise">Exercise</MenuItem>
-                <MenuItem value="Food">Food</MenuItem>
-                <MenuItem value="Art">Art</MenuItem>
-                <MenuItem value="Lifestyle">Lifestyle</MenuItem>
-                <MenuItem value="Finance">Finance</MenuItem>
-                <MenuItem value="Misc">Misc</MenuItem>
-                </Select>
-            </FormControl>
-            <br />
-            
-            <FormControl className={useStyles().formControl}>
-                <TextField
-                      id="outlined-basic"
-                      label="Enter your goal"
-                      value={goal}
-                      onChange={changeHandler_goal}
-                    />
+        <div className="root_container">
+            <div className="content_container">
                 <br />
-                <Button variant="contained"
-                    color="primary"
-                    onClick="clickHandler"
-                    style={{backgroundColor: "0e99b6"}}>
-                    Add!
-                </Button>
-            </FormControl>
-            
+                <br />
+                <br />
+                <br />
+                <br />
+                <h2>Add Goal Page</h2>
+                <h3>User Name and Image here</h3>
+    
+                <FormControl className={useStyles().formControl}>
+                <InputLabel htmlFor="age-native-simple">Select a Category</InputLabel>
+                    <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={category}
+                    onChange={changeHandler_category}
+                    >
+                    <MenuItem value="Work">Work</MenuItem>
+                    <MenuItem value="School">School</MenuItem>
+                    <MenuItem value="Exercise">Exercise</MenuItem>
+                    <MenuItem value="Food">Food</MenuItem>
+                    <MenuItem value="Art">Art</MenuItem>
+                    <MenuItem value="Lifestyle">Lifestyle</MenuItem>
+                    <MenuItem value="Finance">Finance</MenuItem>
+                    <MenuItem value="Misc">Misc</MenuItem>
+                    </Select>
+                </FormControl>
+                <br />
+                
+                <FormControl className={useStyles().formControl}>
+                    <TextField
+                          id="outlined-basic"
+                          label="Enter your goal"
+                          value={goal}
+                          onChange={changeHandler_goal}
+                        />
+                    <br />
+                    <Button variant="contained"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6"}}>
+                        Add!
+                    </Button>
+                </FormControl>
+            </div>
         </div>
     );
 }

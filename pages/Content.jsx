@@ -16,7 +16,6 @@ export default function Content() {
             <GoogleButton />
             <UserProfile />
             <AddGoal />
-            <Exercise />
         </div>
     );
 }

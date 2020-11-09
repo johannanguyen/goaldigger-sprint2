@@ -34,8 +34,8 @@ export default function HomePage() {
     });
     
     return(
-        <div>
-            <h1>Home Page</h1>
+        <div className="root_container">
+            <h2>Home Page</h2>
             <h4>Category list will be on left side</h4>
             { dbUserPrimary.map((data, index) => (
                 <div>
