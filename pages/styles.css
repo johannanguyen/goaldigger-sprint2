@@ -16,14 +16,13 @@
 .button_container {
     overflow-y: hidden;
     background-color: #ffffff;
-    border:2px solid #e0e0e1;
     border-radius: 12px;
     width: 300px;
-    height: 20px;
+    height: 45px;
     position: relative;
     left: 62%;
     padding: 1px;
-    text-align: center;
+    text-align: right;
 }
 
 .content_container {
@@ -48,6 +47,7 @@
     text-align: center;
     float: left;
 }
+
 
 h1 { 
     font-family: "Century Gothic"; 

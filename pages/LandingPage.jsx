@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { GoogleButton } from '../scripts/GoogleLogin';
 import './styles.css';
 
 export default function LandingPage() {
@@ -6,7 +7,7 @@ export default function LandingPage() {
     return(
         <div className="root_container">
             <div className="button_container">
-                LOGIN BUTTONS HERE
+                <GoogleButton />
             </div>
             
             <div className="content_container">

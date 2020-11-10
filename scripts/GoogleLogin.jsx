@@ -32,7 +32,7 @@ export function GoogleButton() {
         <div>
             <GoogleLogin
             clientId="791115456005-sqrq5ha01c9bmcbe7c7u6lco4p9l4r1b.apps.googleusercontent.com"
-            buttonText="Login to Talk to the Coolest People EVER"
+            buttonText="Login"
             onSuccess={get_info}
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}

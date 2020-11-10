@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { clientSocket } from '../scripts/Socket';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 export default function HomePage() {
     const [dbId, setDbId] = useState([]);
@@ -14,6 +16,13 @@ export default function HomePage() {
     const [dbProgress, setDbProgress] = useState([]);
     const [dbDate, setDbDate] = useState([]);
     const [dbPostText, setDbPostText] = useState([]);
+    
+    const useStyles = makeStyles((theme) => ({
+        formControl: {
+        margin: theme.spacing(1),
+        minWidth: 150,
+        }
+    }));
     
 
     useEffect(() => {
@@ -36,30 +45,69 @@ export default function HomePage() {
     return(
         <div className="root_container">
             <div className="category_menu">
-                <a href="">
-                    <img src="https://i.ibb.co/xYVFr6J/gd-1-work.png"></img>
-                </a>
-                <a href="">
-                    <img src="https://i.ibb.co/d6srXGM/gd-2-school.png"></img>
-                </a>
-                <a href="">
-                    <img src="https://i.ibb.co/pndKdvW/gd-3-exercise.png"></img>
-                </a>
-                <a href="">
-                    <img src="https://i.ibb.co/q7WzpTz/gd-4-food.png"></img>
-                </a>
-                <a href="">
-                    <img src="https://i.ibb.co/QMgx3Q0/gd-5-art.png"></img>
-                </a>
-                <a href="">
-                    <img src="https://i.ibb.co/Pm9R7MP/gd-6-lifestyle.png"></img>
-                </a>
-                <a href="">
-                    <img src="https://i.ibb.co/Fx2JjyD/gd-7-finance.png"></img>
-                </a>
-                <a href="">
-                    <img src="https://i.ibb.co/K6GfqjV/gd-8-misc.png"></img>
-                </a>
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        Work
+                    </Button>
+
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        School
+                    </Button>
+
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        Exercise
+                    </Button>
+
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        Food
+                    </Button>
+
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        Art
+                    </Button>
+
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        Lifetyle
+                    </Button>
+
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        Finance
+                    </Button>
+
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        Misc
+                    </Button>
             </div>
             
             
