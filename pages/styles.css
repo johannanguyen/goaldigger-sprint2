@@ -48,6 +48,15 @@
     float: left;
 }
 
+.goal_container {
+    overflow-y: auto;
+    background-color: #ffffff;
+    width: 40%;
+    height: 25%;
+    margin: auto;
+    text-align: left;
+    overflow-y: auto;
+}
 
 h1 { 
     font-family: "Century Gothic"; 
@@ -69,6 +78,16 @@ h2 {
     color: #0e99b6;
 } 
 
+h3 { 
+    font-family: "Century Gothic"; 
+    font-size: 24px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 700; 
+    line-height: 26.4px; 
+    color: #0e99b6;
+} 
+
 body { 
     font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
     font-size: 14px; 
@@ -81,7 +100,7 @@ body {
 
 b { 
     font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
-    font-size: 14px; 
+    font-size: 16px; 
     font-weight: bold;
     font-variant: normal; 
     line-height: 20px; 

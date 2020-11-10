@@ -116,15 +116,24 @@ def push_new_user_to_db(email, username, image, is_signed_in, id_token):
     db.session.add(models.Users(email, username, image, is_signed_in, id_token));
     db.session.commit();
 
+
 @server_socket.on('new google user')
 def on_new_google_user(data):
+    # Grabs all of the users CURRENTLY in the database
+    # Grabs the new google login email and checks to see if it is in the list of emails
+    #     If it is not, it will add that user to the database
+    # The email array will have to be repopulated (to account for newly added user)
+    # primary_id is determined by taking the index of where the email is located in the email array + 1
+    #     example:
+    #         all_emails = [johanna@gmail.com, joey@gmail.com]
+    #         johanna's primary id = 0 + 1 = 1
+    # Grabs all the goals and progress in the database relating to the primary id
+    # Emits username and image to client
+    # Emits the goals and progress
+    
     all_emails = [
         DB_email.email
         for DB_email in db.session.query(models.Users).all()
-    ]
-    all_user_ids = [
-        DB_id.id
-        for DB_id in db.session.query(models.Users).all()
     ]
     
     if (not data["email"] in all_emails):
@@ -134,28 +143,29 @@ def on_new_google_user(data):
         DB_email.email
         for DB_email in db.session.query(models.Users).all()
     ]
-    all_user_ids = [
-        DB_id.id
-        for DB_id in db.session.query(models.Users).all()
-    ]
-        
-    print("ALL USER IDS: ", all_user_ids)
-    print("EMAIL: ", data["email"], "USER ID: ", all_user_ids[all_emails.index(data["email"])])
-    primary_id = all_user_ids[all_emails.index(data["email"])]
+
+    primary_id = all_emails.index(data["email"]) + 1
+    
     personal_profile = {
         "username": data["username"],
-        "image": data["image"],
-        "primary_id": primary_id
+        "image": data["image"]
     }
-    server_socket.emit("google info received", personal_profile, request.sid)
     
     personal_goals = [
         personal_goal.description
-        for personal_goal in models.Goals.query.filter(models.Goals.user_id == primary_id)
+        for personal_goal in models.Goals.query.filter(models.Goals.user_id == primary_id) 
     ]
-    print("PERSONAL GOALS: ", personal_goals)
     
-  
+    personal_progress = [
+        personal_progress.progress
+        for personal_progress in models.Goals.query.filter(models.Goals.user_id == primary_id)
+    ]
+    
+    server_socket.emit("google info received", personal_profile, request.sid)
+    server_socket.emit("goal_description", personal_goals, request.sid)
+    server_socket.emit("goal_progress", personal_progress, request.sid)
+    
+
 def emit_google_info(channel):
         
     all_users = [{
@@ -167,7 +177,6 @@ def emit_google_info(channel):
     server_socket.emit(channel, {
         'allusers' : all_users
     })
-    
 
 @server_socket.on("connect")
 def on_connect():
