@@ -17,16 +17,18 @@ export default function UserProfile() {
   
     return(
         <div className="root_container">
-            <h2>User Profile</h2>
-            {
-              users.map((data,index) => (
-                <div key={index}>
-                  <b>Username {data["username"]}</b>
-                  <img src={data["img_url"]} alt="User PFP"/>
-                </div>
-              ))
-            }
-            <p>About Me, In-Progress Goals, Completed Goals, Groups</p>
+          <div className="content_container">
+              <h2>User Profile</h2>
+              {
+                users.map((data,index) => (
+                  <div key={index}>
+                    <b>Username {data["username"]}</b>
+                    <img src={data["img_url"]} alt="User PFP"/>
+                  </div>
+                ))
+              }
+              <p>About Me, In-Progress Goals, Completed Goals, Groups</p>
+          </div>
         </div>
     );
 }

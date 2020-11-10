@@ -45,11 +45,12 @@ export default function HomePage() {
     return(
         <div className="root_container">
             <div className="category_menu">
+            <br />
                     <Button variant="contained"
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         Work
                     </Button>
 
@@ -57,7 +58,7 @@ export default function HomePage() {
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         School
                     </Button>
 
@@ -65,7 +66,7 @@ export default function HomePage() {
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         Exercise
                     </Button>
 
@@ -73,7 +74,7 @@ export default function HomePage() {
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         Food
                     </Button>
 
@@ -81,7 +82,7 @@ export default function HomePage() {
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         Art
                     </Button>
 
@@ -89,7 +90,7 @@ export default function HomePage() {
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         Lifetyle
                     </Button>
 
@@ -97,7 +98,7 @@ export default function HomePage() {
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         Finance
                     </Button>
 
@@ -105,8 +106,16 @@ export default function HomePage() {
                         size="large"
                         color="primary"
                         onClick="clickHandler"
-                        style={{backgroundColor: "0e99b6", minHeight: "70px", minWidth: "170px", border: "1px solid white"}}>
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                         Misc
+                    </Button>
+                    
+                    <Button variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick="clickHandler"
+                        style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
+                        Groups
                     </Button>
             </div>
             
