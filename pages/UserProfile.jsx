@@ -7,8 +7,8 @@ export default function UserProfile() {
     function getGoogleUserInfo() {
     React.useEffect(() => {
       clientSocket.on('google info received', (data) => {
-        console.log("Received this google info from server: ", data.allusers);
-        setUsers(data['allusers']);
+        console.log("Received this google info from server: ", data);
+        setUsers(data);
       });
     });
   }
@@ -19,14 +19,13 @@ export default function UserProfile() {
         <div className="root_container">
           <div className="content_container">
               <h2>User Profile</h2>
-              {
-                users.map((data,index) => (
-                  <div key={index}>
-                    <b>Username {data["username"]}</b>
-                    <img src={data["img_url"]} alt="User PFP"/>
-                  </div>
-                ))
-              }
+              
+              {users["username"]} <br />
+              
+              <img src={users["image"]}></img> <br />
+              
+              USER ID: {users["user_id"]}
+              
               <p>About Me, In-Progress Goals, Completed Goals, Groups</p>
           </div>
         </div>

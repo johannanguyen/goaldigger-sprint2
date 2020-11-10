@@ -118,14 +118,50 @@ def push_new_user_to_db(email, username, image, is_signed_in, id_token):
 
 @server_socket.on('new google user')
 def on_new_google_user(data):
-    print("Got an event for new google user input with data:", data)
-    push_new_user_to_db(data['email'], data['username'], data['image'], data['is_signed_in'], data['id_token'])
+    all_emails = [
+        DB_email.email
+        for DB_email in db.session.query(models.Users).all()
+    ]
+    all_user_ids = [
+        DB_id.id
+        for DB_id in db.session.query(models.Users).all()
+    ]
     
+    if (not data["email"] in all_emails):
+        push_new_user_to_db(data['email'], data['username'], data['image'], data['is_signed_in'], data['id_token'])
+        
+    all_emails = [
+        DB_email.email
+        for DB_email in db.session.query(models.Users).all()
+    ]
+    all_user_ids = [
+        DB_id.id
+        for DB_id in db.session.query(models.Users).all()
+    ]
+        
+    print("ALL USER IDS: ", all_user_ids)
+    print("EMAIL: ", data["email"], "USER ID: ", all_user_ids[all_emails.index(data["email"])])
+    primary_id = all_user_ids[all_emails.index(data["email"])]
+    personal_profile = {
+        "username": data["username"],
+        "image": data["image"],
+        "primary_id": primary_id
+    }
+    server_socket.emit("google info received", personal_profile, request.sid)
+    
+    personal_goals = [
+        personal_goal.description
+        for personal_goal in models.Goals.query.filter(models.Goals.user_id == primary_id)
+    ]
+    print("PERSONAL GOALS: ", personal_goals)
+    
+  
 def emit_google_info(channel):
         
     all_users = [{
         "username": user.name,
-        "img_url": user.img_url    
+        "img_url": user.img_url,
+        "user_id": user.id
         } for user in db.session.query(models.Users).all()]
 
     server_socket.emit(channel, {
@@ -136,7 +172,7 @@ def emit_google_info(channel):
 @server_socket.on("connect")
 def on_connect():
     emit_newsfeed(EMIT_EXERCISE_NEWSFEED_CHANNEL, request.sid)
-    emit_google_info(GOOGLE_INFO_RECEIVED_CHANNEL)
+    #emit_google_info(GOOGLE_INFO_RECEIVED_CHANNEL)
 
 
 @app.route("/", methods=["GET", "POST"])

@@ -14,7 +14,7 @@ function get_info(google_user) {
     let image = google_user.profileObj.imageUrl;
     let is_signed_in = google_user.isSignedIn();
     
-    console.log('Sent the following google user info to server!' + id_token + email + username + image + is_signed_in);
+    //console.log('Sent the following google user info to server!' + id_token + email + username + image + is_signed_in);
     
     
     clientSocket.emit('new google user', {
