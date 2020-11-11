@@ -6,7 +6,6 @@ import * as ReactDOM from 'react-dom';
 import HomePage from '../pages/HomePage';
 import UserProfile from '../pages/UserProfile';
 import LandingPage from '../pages/LandingPage';
-import Navigation from '../pages/Navigation';
 import Content from '../pages/Content';
 
 

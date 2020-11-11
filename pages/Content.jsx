@@ -8,7 +8,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import HomePage from  './HomePage';
 import UserProfile from './UserProfile';
-import Navigation from './Navigation';
 
 /*
 export default function Content() {
@@ -21,6 +20,7 @@ export default function Content() {
         </div>
     );
 }
+// <Navigation />
 */
 
 
@@ -28,7 +28,6 @@ export default function Content() {
     return (      
        <BrowserRouter>
         <div>
-          <Navigation />
             <Switch>
             <Route path="/main" component={UserProfile}/>
             <Route path="/second" component={LandingPage}/>
