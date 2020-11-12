@@ -54,7 +54,7 @@ export default function UserProfile() {
               <button variant="contained"
                 size="large"
                 color="white"
-                onClick={ ChangePage }
+                onClick={ChangePage}
                 style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
                 Add Goal
               </button>

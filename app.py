@@ -215,6 +215,11 @@ def UserProfile():
 def AddGoal():
     return flask.render_template("AddGoal.html")
 
+@app.route('/Art', methods=["GET", "POST"])
+def Art():
+    return flask.render_template("Art.html")
+
+
 
 if __name__ == "__main__":
     server_socket.run(
