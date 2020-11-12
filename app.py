@@ -141,7 +141,7 @@ def on_new_google_user(data):
     }
     
     personal_goals = [
-        { 
+        {
             "description": personal_goal.description,
             "progress": personal_goal.progress
         }

@@ -37,7 +37,7 @@ export default function HomePage() {
     });
   }
     getGoogleUserInfo();
-    
+
 
     useEffect(() => {
       clientSocket.on("homepage", (data) => {
