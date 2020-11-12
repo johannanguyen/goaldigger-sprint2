@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { clientSocket } from '../scripts/Socket';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
 
 export default function HomePage() {
     const [dbId, setDbId] = useState([]);
@@ -16,6 +17,9 @@ export default function HomePage() {
     const [dbProgress, setDbProgress] = useState([]);
     const [dbDate, setDbDate] = useState([]);
     const [dbPostText, setDbPostText] = useState([]);
+    const [newGoal, setNewGoal] = useState([]);
+    const [users, setUsers] = useState({});
+    
     
     const useStyles = makeStyles((theme) => ({
         formControl: {
@@ -23,6 +27,16 @@ export default function HomePage() {
         minWidth: 150,
         }
     }));
+    
+    function getGoogleUserInfo() {
+    React.useEffect(() => {
+      clientSocket.on('google info received', (data) => {
+        console.log("Received this in the add goal section: ", data);
+        setUsers(data);
+      });
+    });
+  }
+    getGoogleUserInfo();
     
 
     useEffect(() => {
@@ -44,6 +58,7 @@ export default function HomePage() {
     
     return(
         <div className="root_container">
+        
             <div className="category_menu">
             <br />
                     <Button variant="contained"
@@ -119,17 +134,21 @@ export default function HomePage() {
                     </Button>
             </div>
             
+            <div className="header_menu">
+                <h2>Home</h2> 
+                <Avatar src={users.image} />
+            </div>
             
-            <h2>Home Page</h2>
-            <h4>Category list will be on left side</h4>
-            { dbUserPrimary.map((data, index) => (
-                <div>
-                    <p>
-                        {dbName[data-1]} {dbProgress[index]} a goal in <b>{dbCategory[index]}</b>: {dbDescription[index]}<br />
-                        "{dbPostText[index]}"
-                    </p>
-                </div>)) }
+            <div className="homepage_container">
 
+                { dbUserPrimary.map((data, index) => (
+                    <div>
+                        <Avatar src={dbImage[index]} />
+                        
+                        {dbName[data-1]} {dbProgress[index]} a goal in <b>{dbCategory[index]}</b>: {dbDescription[index]}<br />
+                            "{dbPostText[index]}"
+                    </div>)) }
+            </div>
         </div>
     );
 }

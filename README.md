@@ -10,4 +10,3 @@
   g) `npm install socket.io-client --save`  
   h) `npm install @material-ui/core`
   i) `npm install react-google-login`
-  j) `npm install @material-ui/icons`
