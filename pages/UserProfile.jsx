@@ -1,45 +1,41 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { clientSocket } from '../scripts/Socket';
+import Fab from '@material-ui/core/Fab';
 
 export default function UserProfile() {
-    const [users, setUsers] = React.useState([]);
-    const [goals, setGoals] = React.useState([]);
-    const [progress, setProgress] = React.useState([]);
+    const [users, setUsers] = useState([]);
+    const [goals, setGoals] = useState([]);
+    const [progress, setProgress] = useState([]);
 
-    function getGoogleUserInfo() {
-    React.useEffect(() => {
+    useEffect(() => {
       clientSocket.on('google info received', (data) => {
         console.log("Received this google info from server: ", data);
         setUsers(data);
       });
     });
-  }
   
-    function getGoalInfo() {
-    React.useEffect(() => {
+    useEffect(() => {
       clientSocket.on('goal_description', (data) => {
         console.log("Received goal info: ", data);
         setGoals(data);
       });
     });
-  }
   
-      function getProgressInfo() {
-    React.useEffect(() => {
+    useEffect(() => {
       clientSocket.on('goal_progress', (data) => {
         console.log("Received goal info: ", data);
         setProgress(data);
       });
     });
-  }
   
-  function ChangePage() {
-    location.href="/AddGoal" 
-    //<button  onclick="ChangePage()">index.html</button>
-  }
-  getGoogleUserInfo();
-  getGoalInfo();
-  getProgressInfo();
+    function ChangePage() {
+      location.href="/AddGoal" 
+      //<button  onclick="ChangePage()">index.html</button>
+    }
+
+    getGoogleUserInfo();
+    getGoalInfo();
+    getProgressInfo();
   
     return(
         <div className="root_container">
@@ -66,9 +62,13 @@ export default function UserProfile() {
                       <b>{data}:</b> {goals[index]}
                       <br />
                   </div>)) }
-          
-              
               </div>
+          </div>
+          
+          <div align="right">
+              <Fab color="primary" size="small" style={{backgroundColor: "0e99b6"}}>
+                +
+              </Fab>
           </div>
         </div>
     );
