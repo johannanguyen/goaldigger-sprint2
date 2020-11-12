@@ -127,40 +127,30 @@ def on_new_google_user(data):
     # Emits username and image to client
     # Emits the goals and progress
     
-    all_emails = [
-        DB_email.email
-        for DB_email in db.session.query(models.Users).all()
-    ]
-    
-    if (not data["email"] in all_emails):
-        push_new_user_to_db(data['email'], data['username'], data['image'], data['is_signed_in'], data['id_token'])
-        
-    all_emails = [
-        DB_email.email
-        for DB_email in db.session.query(models.Users).all()
-    ]
+    user = db.session.query(models.Users).filter_by(email=data["email"]).first()
 
-    primary_id = all_emails.index(data["email"]) + 1
+    if (not user):
+        push_new_user_to_db(data['email'], data['username'], data['image'], "Null", data['id_token'])
+
+    user = db.session.query(models.Users).filter_by(email=data["email"]).first()
     
     personal_profile = {
         "username": data["username"],
         "image": data["image"],
-        "primary_id": primary_id
+        "primary_id": user.id
     }
     
     personal_goals = [
-        personal_goal.description
-        for personal_goal in models.Goals.query.filter(models.Goals.user_id == primary_id) 
+        { 
+            "description": personal_goal.description,
+            "progress": personal_goal.progress
+        }
+        for personal_goal in models.Goals.query.filter(models.Goals.user_id == user.id).all()
     ]
-    
-    personal_progress = [
-        personal_progress.progress
-        for personal_progress in models.Goals.query.filter(models.Goals.user_id == primary_id)
-    ]
+
     
     server_socket.emit("google info received", personal_profile, request.sid)
-    server_socket.emit("goal_description", personal_goals, request.sid)
-    server_socket.emit("goal_progress", personal_progress, request.sid)
+    server_socket.emit("user goals", personal_goals, request.sid)
    
     
     
