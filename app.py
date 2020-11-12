@@ -199,25 +199,25 @@ def on_connect():
 
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
     """ Runs the app!!!"""
     return flask.render_template("index.html")
 
 
-@app.route('/HomePage', methods=["GET", "POST"])
+@app.route('/HomePage')
 def HomePage():
     return flask.render_template("HomePage.html")
     
-@app.route('/UserProfile', methods=["GET", "POST"])
+@app.route('/UserProfile')
 def UserProfile():
     return flask.render_template("UserProfile.html")
 
-@app.route('/AddGoal', methods=["GET", "POST"])
+@app.route('/AddGoal')
 def AddGoal():
     return flask.render_template("AddGoal.html")
 
-@app.route('/Art', methods=["GET", "POST"])
+@app.route('/Art')
 def Art():
     return flask.render_template("Art.html")
 

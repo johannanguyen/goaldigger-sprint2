@@ -56,6 +56,13 @@ export default function HomePage() {
       });
     });
     
+    function ChangePage() {
+        location.href="/UserProfile" 
+        //<button  onclick="ChangePage()">index.html</button>
+    }
+    
+    
+    
     function WorkPage() {
         location.href="/Work" 
         //<button  onclick="ChangePage()">index.html</button>
@@ -183,6 +190,15 @@ export default function HomePage() {
             
             <div className="header_menu">
                 <h2>Home</h2> 
+                
+                <button variant="contained"
+                    size="large"
+                    color="primary"
+                    onClick={ChangePage}
+                    style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
+                    User Profile
+                </button>
+                
                 <Avatar src={users.image} />
             </div>
             

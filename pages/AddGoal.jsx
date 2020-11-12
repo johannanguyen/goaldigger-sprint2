@@ -51,8 +51,13 @@ export default function AddGoal() {
     const changeHandler_postText = (event) => {
         setPostText(event.target.value);
         setProgress('Added');
+        ChangePage();
     };
     
+    function ChangePage() {
+      location.href="/UserProfile" 
+      //<button  onclick="ChangePage()">index.html</button>
+    }
 
 
     const clickHandler = () => {
@@ -66,6 +71,13 @@ export default function AddGoal() {
 
     return(
         <div className="root_container">
+            <button variant="contained"
+                size="large"
+                color="white"
+                onClick={ChangePage}
+                style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
+                Back
+            </button>
             <div className="content_container">
 
                 <h2>Add Goal</h2>

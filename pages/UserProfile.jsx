@@ -32,13 +32,25 @@ export default function UserProfile() {
       location.href="/AddGoal" 
       //<button  onclick="ChangePage()">index.html</button>
     }
+    
+    function GoBack() {
+      location.href="/HomePage" 
+      //<button  onclick="ChangePage()">index.html</button>
+    }
 
-    getGoogleUserInfo();
-    getGoalInfo();
-    getProgressInfo();
+    //getGoogleUserInfo();
+    //getGoalInfo();
+    //getProgressInfo();
   
     return(
         <div className="root_container">
+          <button variant="contained"
+                size="large"
+                color="white"
+                onClick={GoBack}
+                style={{backgroundColor: "0e99b6", minHeight: "60px", minWidth: "170px", border: "1px solid white"}}>
+                Back
+          </button>
           <div className="content_container">
               <h1>{users["username"]}</h1>
                <br />
