@@ -172,6 +172,8 @@ def add_goal(data):
     progress = data["progress"]
     post_text = data["postText"]
     
+    server_socket.emit("add_goal", data, request.sid)
+    
     db.session.add(models.Goals(user_id, category, description, progress, post_text))
     db.session.commit()
     
