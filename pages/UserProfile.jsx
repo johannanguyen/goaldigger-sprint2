@@ -3,30 +3,35 @@ import Fab from '@material-ui/core/Fab';
 import { clientSocket } from '../scripts/Socket';
 
 export default function UserProfile() {
-  const [users, setUsers] = useState([]);
-  const [goals, setGoals] = useState([]);
-  const [progress, setProgress] = useState([]);
+  const [user, setUser] = React.useState([]);
+  const [goals, setGoals] = React.useState([]);
 
-  useEffect(() => {
-    clientSocket.on('google info received', (data) => {
-      console.log('Received this google info from server: ', data);
-      setUsers(data);
+  function getGoogleUserInfo() {
+    React.useEffect(() => {
+      clientSocket.on('google info received', updateGoogleUserInfo);
+      return () => {
+        clientSocket.off('google info received', updateGoogleUserInfo);
+      };
     });
-  });
+  }
 
-  useEffect(() => {
-    clientSocket.on('goal_description', (data) => {
-      console.log('Received goal info: ', data);
-      setGoals(data);
-    });
-  });
+  function updateGoogleUserInfo(data) {
+    setUser(data);
+  }
 
-  useEffect(() => {
-    clientSocket.on('goal_progress', (data) => {
-      console.log('Received goal info: ', data);
-      setProgress(data);
+  function getGoalInfo() {
+    React.useEffect(() => {
+      clientSocket.on('user goals', updateGoalInfo);
+      return () => {
+        clientSocket.off('user goals', updateGoalInfo);
+      };
     });
-  });
+  }
+
+  function updateGoalInfo(data) {
+    console.log('Received goal info: ', data);
+    setGoals(data);
+  }
 
   function ChangePage() {
     location.href = '/AddGoal';
@@ -38,9 +43,8 @@ export default function UserProfile() {
     // <button  onclick="ChangePage()">index.html</button>
   }
 
-  // getGoogleUserInfo();
-  // getGoalInfo();
-  // getProgressInfo();
+  getGoogleUserInfo();
+  getGoalInfo();
 
   return (
     <div className="root_container">
@@ -56,10 +60,10 @@ export default function UserProfile() {
         Back
       </button>
       <div className="content_container">
-        <h1>{users.username}</h1>
+        <h1>{user.username}</h1>
         <br />
 
-        <img src={users.image} />
+        <img src={user.image} />
         <br />
         <br />
 
@@ -74,23 +78,22 @@ export default function UserProfile() {
         >
           Add Goal
         </button>
-        <h3>Here's a list of my goals:</h3>
 
+        <h3>Here's a list of my goals:</h3>
         <div className="goal_container">
-          { progress.map((data, index) => (
+          { goals.map((data, index) => (
             <div>
               <b>
-                {data}
+                {data.progress}
                 :
               </b>
               {' '}
-              {goals[index]}
+              {data.description}
               <br />
             </div>
-          )) }
+          ))}
         </div>
       </div>
-
       <div align="right">
         <Fab color="primary" size="small" style={{ backgroundColor: '0e99b6' }}>
           +
