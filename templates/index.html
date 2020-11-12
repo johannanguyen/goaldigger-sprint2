@@ -1,19 +1,15 @@
 <html>
     <head>
-        <style>
-            div.Invisible {
-                display: none;
-            }
-        </style>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
     <body>
-        <h1>INDEX.HTML</h1>
+        <script>
+            function ChangePage() {
+              location.href="/HomePage" 
+              //<button  onclick="ChangePage()">HomePage.html</button>
+            }
+        </script>
         <div id="Content"></div>
-        <div class="Invisible">
-            
-            
-            <h1>HIDDEN</h1>
-        </div>
         <script type="text/javascript" src="/static/script.js"></script>
     </body>
 </html>
