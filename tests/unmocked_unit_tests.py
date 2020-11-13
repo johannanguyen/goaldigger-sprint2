@@ -5,7 +5,10 @@ import os
 from os.path import join, dirname
 import sys
 sys.path.append(join(dirname(__file__), "../"))
-import models
+#import models
+from models import *
+
+#SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 #run commands
 #coverage run -m --source=. unittest tests/*.py
@@ -58,6 +61,42 @@ class goal_Init(unittest.TestCase):
                         KEY_DESCRIPTION: "Press bench 100 pounds",
                         KEY_PROGRESS: "Started",
                         KEY_POST_TEXT: "Excited to start this goal",
+                    }
+                ,
+                KEY_EXPECTED: "",
+            },
+            {
+                KEY_INPUT: 
+                    {
+                        KEY_USER_ID:"2",
+                        KEY_CATEGORY: "Art",
+                        KEY_DESCRIPTION: "Paint the Mona Lisa",
+                        KEY_PROGRESS: "Started",
+                        KEY_POST_TEXT: "gonna paint better than da vinci",
+                    }
+                ,
+                KEY_EXPECTED: ""
+            },
+            {
+                KEY_INPUT: 
+                    {
+                        KEY_USER_ID:"3",
+                        KEY_CATEGORY: "Misc",
+                        KEY_DESCRIPTION: "Get my test file working",
+                        KEY_PROGRESS: "Started",
+                        KEY_POST_TEXT: "Unit Testing is hard",
+                    }
+                ,
+                KEY_EXPECTED: ""
+            },
+            {
+                KEY_INPUT: 
+                    {
+                        KEY_USER_ID:"4",
+                        KEY_CATEGORY: "Misc",
+                        KEY_DESCRIPTION: "Fix errors in test file",
+                        KEY_PROGRESS: "Started",
+                        KEY_POST_TEXT: "A series of highly unfortunate events, i need a drink",
                     }
                 ,
                 KEY_EXPECTED: ""
