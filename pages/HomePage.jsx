@@ -58,7 +58,7 @@ export default function HomePage() {
     location.href = '/UserProfile';
     // <button  onclick="ChangePage()">index.html</button>
   }
-
+  /*
   function WorkPage() {
     location.href = '/Work';
     // <button  onclick="ChangePage()">index.html</button>
@@ -103,7 +103,7 @@ export default function HomePage() {
     location.href = '/Groups';
     // <button  onclick="ChangePage()">index.html</button>
   }
-
+*/
   // do div box styling for the week
 
   return (
@@ -223,7 +223,7 @@ export default function HomePage() {
       <div className="header_menu">
         <h2>Home</h2>
 
-        <button
+        <Button
           variant="contained"
           size="large"
           color="primary"
@@ -233,7 +233,7 @@ export default function HomePage() {
           }}
         >
           User Profile
-        </button>
+        </Button>
 
         <Avatar src={users.image} />
       </div>

@@ -57,23 +57,23 @@ def emit_newsfeed(channel, sid):
         DB_category.category
         for DB_category in db.session.query(models.Goals).all()
     ]
-    
+
     all_user_primary_ids = [
         DB_user_primary_id.user_id
         for DB_user_primary_id in db.session.query(models.Goals).all()
     ]
 
-    
+
     all_descriptions = [
         DB_description.description
         for DB_description in db.session.query(models.Goals).all()
     ]
-    
+
     all_progress = [
         DB_progress.progress
         for DB_progress in db.session.query(models.Goals).all()
     ]
-    
+
     all_post_texts = [
         DB_post_text.post_text
         for DB_post_text in db.session.query(models.Goals).all()
@@ -86,7 +86,7 @@ def emit_newsfeed(channel, sid):
         all_categories.append(db_goals.category)
         all_descriptions.append(db_goals.description)
         all_progress.append(db_goals.progress)
-    
+
     server_socket.emit(
         channel,
         {
@@ -104,7 +104,7 @@ def emit_newsfeed(channel, sid):
         sid,
     )
     print(all_ids, all_names, all_images)
-    
+
 
 
 def push_new_user_to_db(email, username, image, is_signed_in, id_token):
@@ -112,7 +112,6 @@ def push_new_user_to_db(email, username, image, is_signed_in, id_token):
     db.session.commit();
 
 
-    
 @server_socket.on('new google user')
 def on_new_google_user(data):
     # Grabs all of the users CURRENTLY in the database
@@ -133,13 +132,13 @@ def on_new_google_user(data):
         push_new_user_to_db(data['email'], data['username'], data['image'], "Null", data['id_token'])
 
     user = db.session.query(models.Users).filter_by(email=data["email"]).first()
-    
+
     personal_profile = {
         "username": data["username"],
         "image": data["image"],
         "primary_id": user.id
     }
-    
+
     personal_goals = [
         {
             "description": personal_goal.description,
@@ -148,12 +147,12 @@ def on_new_google_user(data):
         for personal_goal in models.Goals.query.filter(models.Goals.user_id == user.id).all()
     ]
 
-    
+
     server_socket.emit("google info received", personal_profile, request.sid)
     server_socket.emit("user goals", personal_goals, request.sid)
-   
-    
-    
+
+
+
 @server_socket.on('add_goal')
 def add_goal(data):
     category = data["category"]
@@ -161,12 +160,12 @@ def add_goal(data):
     description = data["goal"]
     progress = data["progress"]
     post_text = data["postText"]
-    
+
     server_socket.emit("add_goal", data, request.sid)
-    
+
     db.session.add(models.Goals(user_id, category, description, progress, post_text))
     db.session.commit()
-    
+
 
 
 def emit_google_info(channel):
@@ -179,8 +178,8 @@ def emit_google_info(channel):
     server_socket.emit(channel, {
         'allusers' : all_users
     })
-    
-    
+
+
 
 @server_socket.on("connect")
 def on_connect():
@@ -198,7 +197,7 @@ def index():
 @app.route('/HomePage')
 def HomePage():
     return flask.render_template("HomePage.html")
-    
+
 @app.route('/UserProfile')
 def UserProfile():
     return flask.render_template("UserProfile.html")
