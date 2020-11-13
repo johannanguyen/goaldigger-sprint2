@@ -4,7 +4,7 @@ import datetime
 import os
 from os.path import join, dirname
 import sys
-sys.path.insert(1, join(dirname(__file__), '../'))
+sys.path.append(join(dirname(__file__), "../"))
 import models
 
 #run commands
