@@ -49,7 +49,7 @@ export default function AddGoal() {
   const changeHandler_postText = (event) => {
     setPostText(event.target.value);
     setProgress('Added');
-    ChangePage();
+    //ChangePage();
   };
 
   function ChangePage() {
@@ -69,7 +69,8 @@ export default function AddGoal() {
   return (
     <div className="root_container">
       <GoogleOut />
-      <button
+      {/*
+      <Button
         variant="contained"
         size="large"
         color="white"
@@ -79,7 +80,8 @@ export default function AddGoal() {
         }}
       >
         Back
-      </button>
+      </Button>
+      */}
       <div className="content_container">
 
         <h2>Add Goal</h2>

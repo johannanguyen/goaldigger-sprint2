@@ -223,7 +223,7 @@ export default function HomePage() {
 
       <div className="header_menu">
         <h2>Home</h2>
-
+        {/*
         <Button
           variant="contained"
           size="large"
@@ -233,8 +233,10 @@ export default function HomePage() {
             backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
           }}
         >
+        
           User Profile
         </Button>
+        */}
 
         <Avatar src={users.image} />
       </div>

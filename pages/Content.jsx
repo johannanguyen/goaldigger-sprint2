@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-// import * as React from 'react';
 
 import LandingPage from './LandingPage';
 import HomePage from './HomePage';
@@ -12,6 +11,17 @@ import Exercise from '../scripts/Exercise';
 import Art from '../scripts/Art';
 
 export default function Content() {
+  
+  return (
+    <div>
+      <LandingPage />
+      <HomePage />
+      <UserProfile />
+      <AddGoal />
+    </div>
+  );
+  
+  /*
   return (
     <BrowserRouter>
       <div>
@@ -26,4 +36,5 @@ export default function Content() {
       </div>
     </BrowserRouter>
   );
+  */
 }

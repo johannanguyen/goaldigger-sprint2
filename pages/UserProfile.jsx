@@ -50,7 +50,8 @@ export default function UserProfile() {
   return (
     <div className="root_container">
       <GoogleOut/>
-      <button
+      {/*
+      <Button
         variant="contained"
         size="large"
         color="white"
@@ -60,7 +61,8 @@ export default function UserProfile() {
         }}
       >
         Back
-      </button>
+      </Button>
+      */}
       <div className="content_container">
         <h1>{user.username}</h1>
         <br />
@@ -68,8 +70,8 @@ export default function UserProfile() {
         <img src={user.image} />
         <br />
         <br />
-
-        <button
+        {/*
+        <Button
           variant="contained"
           size="large"
           color="white"
@@ -79,7 +81,8 @@ export default function UserProfile() {
           }}
         >
           Add Goal
-        </button>
+        </Button>
+        */}
 
         <h3>Here's a list of my goals:</h3>
         <div className="goal_container">
