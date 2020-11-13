@@ -2,7 +2,7 @@ from datetime import datetime
 import flask_sqlalchemy
 from app import db
 from enum import Enum
-#SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 #When someone logs in, check which auth method they used. If they used google, then check google_id to see if they had created an account. 
 #If there aren't any users with that google_id, create one. Same for facebook auth.
 
