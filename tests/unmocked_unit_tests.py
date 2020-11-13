@@ -5,7 +5,7 @@ import os
 from os.path import join, dirname
 import sys
 sys.path.append(join(dirname(__file__), "../"))
-import models
+from models import Users, Goals
 
 #run commands
 #coverage run -m --source=. unittest tests/*.py
