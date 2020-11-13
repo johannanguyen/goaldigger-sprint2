@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Fab from '@material-ui/core/Fab';
 import { clientSocket } from '../scripts/Socket';
+import { GoogleOut } from '../scripts/GoogleLogout';
 
 export default function UserProfile() {
   const [user, setUser] = React.useState([]);
@@ -48,6 +49,7 @@ export default function UserProfile() {
 
   return (
     <div className="root_container">
+      <GoogleOut/>
       <button
         variant="contained"
         size="large"

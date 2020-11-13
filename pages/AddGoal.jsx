@@ -8,6 +8,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { clientSocket } from '../scripts/Socket';
+import { GoogleOut } from '../scripts/GoogleLogout';
 
 export default function AddGoal() {
   const [users, setUsers] = React.useState([]);
@@ -67,6 +68,7 @@ export default function AddGoal() {
 
   return (
     <div className="root_container">
+      <GoogleOut />
       <button
         variant="contained"
         size="large"

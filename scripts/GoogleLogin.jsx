@@ -26,10 +26,11 @@ export function GoogleButton() {
   return (
     <div>
       <GoogleLogin
-        clientId="1062054290390-k78ra3cikp1topp72a1s8bo02m965adi.apps.googleusercontent.com"
-        //clientId="1054986958378-occ0i46u818t41nptv82m2ompremrnkh.apps.googleusercontent.com"
+        // clientId="1062054290390-k78ra3cikp1topp72a1s8bo02m965adi.apps.googleusercontent.com"
+        clientId="1054986958378-occ0i46u818t41nptv82m2ompremrnkh.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={get_info}
+        isSignedIn
         onFailure={responseGoogle}
         cookiePolicy="single_host_origin"
       />
