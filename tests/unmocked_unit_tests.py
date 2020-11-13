@@ -7,6 +7,10 @@ import sys
 sys.path.append(join(dirname(__file__), "../"))
 import models
 
+#run commands
+#coverage run -m --source=. unittest tests/*.py
+#coverage html
+
 KEY_INPUT="input"
 KEY_EXPECTED="expected"
 KEY_EMAIL="email"
