@@ -7,7 +7,6 @@ import sys
 sys.path.append(join(dirname(__file__), "../"))
 import models
 
-SQLALCHEMY_TRACK_MODIFICATIONS = True
 #run commands
 #coverage run -m --source=. unittest tests/*.py
 #coverage html

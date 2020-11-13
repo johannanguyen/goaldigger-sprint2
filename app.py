@@ -11,6 +11,7 @@ from datetime import datetime
 
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 server_socket = flask_socketio.SocketIO(app)
 server_socket.init_app(app, cors_allowed_origins="*")
 
