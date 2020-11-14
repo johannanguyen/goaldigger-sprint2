@@ -38,3 +38,4 @@ Tasks not completed, to be completed by the end of our Sprint 2:
   g) `npm install socket.io-client --save`  
   h) `npm install @material-ui/core`
   i) `npm install react-google-login`
+  j) `npm install react-scroll-to-bottom`

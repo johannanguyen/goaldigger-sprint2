@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { clientSocket } from '../scripts/Socket';
 import { GoogleOut } from '../scripts/GoogleLogout';
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 export default function HomePage() {
   const [dbId, setDbId] = useState([]);
@@ -242,10 +243,10 @@ export default function HomePage() {
       </div>
 
       <div className="homepage_container">
-
+        <ScrollToBottom>
         { dbUserPrimary.map((data, index) => (
           <div>
-            <Avatar src={dbImage[index]} />
+            <Avatar src={dbImage[data-1]} />
 
             {dbName[data - 1]}
             {' '}
@@ -263,6 +264,7 @@ export default function HomePage() {
             "
           </div>
         )) }
+        </ScrollToBottom>
       </div>
     </div>
   );
