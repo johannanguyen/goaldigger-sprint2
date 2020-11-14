@@ -34,77 +34,23 @@ EMIT_EXERCISE_NEWSFEED_CHANNEL = "homepage"
 GOOGLE_INFO_RECEIVED_CHANNEL = "google info received"
 
 def emit_newsfeed(channel, sid):
-    all_ids = [
-        DB_id.id
-        for DB_id in db.session.query(models.Users).all()
-    ]
-    all_names = [
-        DB_name.name
-        for DB_name in db.session.query(models.Users).all()
-    ]
-
-
-    all_images = [
-        DB_img_url.img_url
-        for DB_img_url in db.session.query(models.Users).all()
-    ]
-    """
-    all_goal_ids = [
-        DB_id.id
-        for DB_id in db.session.query(models.Goals).all()
-    ]
-    """
-    all_categories = [
-        DB_category.category
-        for DB_category in db.session.query(models.Goals).all()
-    ]
-
-    all_user_primary_ids = [
-        DB_user_primary_id.user_id
-        for DB_user_primary_id in db.session.query(models.Goals).all()
-    ]
-
-
-    all_descriptions = [
-        DB_description.description
-        for DB_description in db.session.query(models.Goals).all()
-    ]
-
-    all_progress = [
-        DB_progress.progress
-        for DB_progress in db.session.query(models.Goals).all()
-    ]
-
-    all_post_texts = [
-        DB_post_text.post_text
-        for DB_post_text in db.session.query(models.Goals).all()
-    ]
-
-    for db_users, db_goals in db.session.query(models.Users, models.Goals).filter(models.Users.id == models.Goals.user_id).order_by(models.Goals.date).all():
-        all_ids.append(db_users.id)
-        all_names.append(db_users.name)
-        all_images.append(db_users.img_url)
-        all_categories.append(db_goals.category)
-        all_descriptions.append(db_goals.description)
-        all_progress.append(db_goals.progress)
-
-    server_socket.emit(
-        channel,
+    all_goals = [
         {
-            "all_ids": all_ids,
-            "all_names": all_names,
-            "all_images": all_images,
-            #"all_goal_ids": all_goal_ids,
-            "all_categories": all_categories,
-            "all_user_primary_ids": all_user_primary_ids,
-            "all_descriptions": all_descriptions,
-            "all_progress": all_progress,
-            #"all_dates": all_dates,
-            "all_post_texts": all_post_texts
-        },
-        sid,
-    )
-    print(all_ids, all_names, all_images)
+            "user_id": db_users.id,
+            "username": db_users.name,
+            "img_url": db_users.img_url,
+            "category": db_goals.category,
+            "description": db_goals.description,
+            "progress": db_goals.progress,
+            "post_text": db_goals.post_text
+        }
+        for db_users, db_goals in\
+        db.session.query(models.Users, models.Goals)\
+        .filter(models.Users.id == models.Goals.user_id)\
+        .order_by(models.Goals.date).all()
+    ]
+    
+    server_socket.emit(channel, all_goals, sid)
 
 
 
