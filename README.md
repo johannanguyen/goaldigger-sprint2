@@ -21,6 +21,11 @@ Joey:
   1. Page navigation
   2. Unit testing for database
   3. Functional Delete button
+  
+Tasks not completed, to be completed by the end of our Sprint 2:
+  1. Full unit testing
+  2. Delete/Complete button
+  3. Navigation
 
 
 1. Clone this repo and install the required dependencies using the following commands:<br>
