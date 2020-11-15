@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CategoryButton } from './CategoryButton'
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { clientSocket } from '../scripts/Socket';
 import { GoogleOut } from '../scripts/GoogleLogout';
@@ -41,7 +40,6 @@ export default function HomePage() {
   }
   getGoogleUserInfo();
   getGoals();
-  console.log("goal list: ", goals)
 
   function ChangePage() {
     location.href = '/UserProfile';
