@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { CategoryButton } from './CategoryButton'
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import { clientSocket } from '../scripts/Socket';
 import { GoogleOut } from '../scripts/GoogleLogout';
 import ScrollToBottom from 'react-scroll-to-bottom';
 
 export default function HomePage() {
-  const [dbId, setDbId] = useState([]);
-  const [dbName, setDbName] = useState([]);
-  const [dbEmail, setDbEmail] = useState([]);
-  const [dbImage, setDbImage] = useState([]);
-  const [dbBio, setDbBio] = useState([]);
-  const [dbGoalId, setDbGoalId] = useState([]);
-  const [dbCategory, setDbCategory] = useState([]);
-  const [dbUserPrimary, setDbUserPrimary] = useState([]);
-  const [dbDescription, setDbDescription] = useState([]);
-  const [dbProgress, setDbProgress] = useState([]);
-  const [dbDate, setDbDate] = useState([]);
-  const [dbPostText, setDbPostText] = useState([]);
-  const [newGoal, setNewGoal] = useState([]);
-  const [users, setUsers] = useState({});
+  const [goals, setGoals] = useState([]);
+  const [user, setUser] = useState({});
 
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -28,33 +16,30 @@ export default function HomePage() {
       minWidth: 150,
     },
   }));
-
+  
+  function getGoals(){
+    React.useEffect(() => {
+      clientSocket.on('homepage', updateGoals)
+      return () => {
+        clientSocket.off('homepage', updateGoals)
+      }
+    })
+  }
+  
+  function updateGoals(data) {
+    setGoals(data)
+  }
+  
   function getGoogleUserInfo() {
     React.useEffect(() => {
       clientSocket.on('google info received', (data) => {
         console.log('Received this in the add goal section: ', data);
-        setUsers(data);
+        setUser(data);
       });
     });
   }
   getGoogleUserInfo();
-
-  useEffect(() => {
-    clientSocket.on('homepage', (data) => {
-      setDbId(data.all_ids, []);
-      setDbName(data.all_names, []);
-      setDbEmail(data.all_emails, []);
-      setDbImage(data.all_images, []);
-      setDbGoalId(data.all_goal_ids, []);
-      setDbCategory(data.all_categories, []);
-      setDbUserPrimary(data.all_user_primary_ids, []);
-      setDbDescription(data.all_descriptions, []);
-      setDbProgress(data.all_progress, []);
-      setDbDate(data.all_dates, []);
-      setDbPostText(data.all_post_texts, []);
-      console.log('Received something', data);
-    });
-  });
+  getGoals();
 
   function ChangePage() {
     location.href = '/UserProfile';
@@ -113,113 +98,15 @@ export default function HomePage() {
       <GoogleOut/>
       <div className="category_menu">
         <br />
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={WorkPage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Work
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={SchoolPage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          School
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={ChangePage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Exercise
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={FoodPage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Food
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={ArtPage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Art
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={LifePage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Lifetyle
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={FinancePage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Finance
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={MiscPage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Misc
-        </Button>
-
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-                        // onClick={GroupsPage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          Groups
-        </Button>
+        <CategoryButton category="Work" />
+        <CategoryButton category="School" />
+        <CategoryButton category="Exercise" />
+        <CategoryButton category="Food" />
+        <CategoryButton category="Art" />
+        <CategoryButton category="Lifestyle" />
+        <CategoryButton category="Finance" />
+        <CategoryButton category="Misc" />
+        <CategoryButton category="Groups" />
       </div>
 
       <div className="header_menu">
@@ -239,28 +126,28 @@ export default function HomePage() {
         </Button>
         */}
 
-        <Avatar src={users.image} />
+        <Avatar src={user.image} />
       </div>
 
       <div className="homepage_container">
         <ScrollToBottom>
-        { dbUserPrimary.map((data, index) => (
+        { goals.map((data, index) => (
           <div>
-            <Avatar src={dbImage[data-1]} />
+            <Avatar src={data.img_url} />
 
-            {dbName[data - 1]}
+            {data.name}
             {' '}
-            {dbProgress[index]}
+            {data.progress}
             {' '}
             a goal in
             {' '}
-            <b>{dbCategory[index]}</b>
+            <b>{data.category}</b>
             :
             {' '}
-            {dbDescription[index]}
+            {data.description}
             <br />
             "
-            {dbPostText[index]}
+            {data.post_text}
             "
           </div>
         )) }
