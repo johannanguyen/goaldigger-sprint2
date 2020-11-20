@@ -6,9 +6,14 @@ import LandingPage from './LandingPage';
 import HomePage from './HomePage';
 import UserProfile from './UserProfile';
 import AddGoal from './AddGoal';
-
-import Exercise from '../scripts/Exercise';
-import Art from '../scripts/Art';
+import Work from './Work';
+import School from './School';
+import Exercise from './Exercise';
+import Food from './Food';
+import Art from './Art';
+import Lifestyle from './Lifestyle';
+import Finance from './Finance';
+import Misc from './Misc';
 
 export default function Content() {
   
@@ -18,6 +23,14 @@ export default function Content() {
       <HomePage />
       <UserProfile />
       <AddGoal />
+      <Work />
+      <School />
+      <Exercise />
+      <Food />
+      <Art />
+      <Lifestyle />
+      <Finance />
+      <Misc />
     </div>
   );
   

@@ -53,6 +53,26 @@ def emit_newsfeed(channel, sid):
     server_socket.emit(channel, all_goals, sid)
 
 
+def emit_category(channel, sid):
+    work_goals = [
+        {
+            "user_id": db_users.id,
+            "username": db_users.name,
+            "img_url": db_users.img_url,
+            "category": db_goals.category,
+            "description": db_goals.description,
+            "progress": db_goals.progress,
+            "post_text": db_goals.post_text
+        }
+        for db_users, db_goals in\
+        db.session.query(models.Users, models.Goals)\
+        .filter(models.Users.id == models.Goals.user_id)\
+        .filter(models.Goals.category == channel)\
+        .order_by(models.Goals.date).all()
+    ]
+    
+    server_socket.emit(channel, work_goals, sid)
+
 
 def push_new_user_to_db(email, username, image, is_signed_in, id_token):
     db.session.add(models.Users(email, username, image, is_signed_in, id_token));
@@ -130,6 +150,14 @@ def emit_google_info(channel):
 
 @server_socket.on("connect")
 def on_connect():
+    emit_category("Work", request.sid)
+    emit_category("School", request.sid)
+    emit_category("Exercise", request.sid)
+    emit_category("Food", request.sid)
+    emit_category("Art", request.sid)
+    emit_category("Lifestyle", request.sid)
+    emit_category("Finance", request.sid)
+    emit_category("Misc", request.sid)
     emit_newsfeed(EMIT_EXERCISE_NEWSFEED_CHANNEL, request.sid)
     #emit_google_info(GOOGLE_INFO_RECEIVED_CHANNEL)
 
