@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CategoryButton } from './CategoryButton'
+import { CategoryButton } from '../scripts/CategoryButton'
+import { SelectedButton } from '../scripts/SelectedButton'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { clientSocket } from '../scripts/Socket';
@@ -98,6 +99,7 @@ export default function HomePage() {
       <GoogleOut/>
       <div className="category_menu">
         <br />
+        <SelectedButton category="Home" />
         <CategoryButton category="Work" />
         <CategoryButton category="School" />
         <CategoryButton category="Exercise" />
