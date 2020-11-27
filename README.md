@@ -29,7 +29,7 @@ Tasks not completed, to be completed by the end of our Sprint 2:
 
 
 1. Clone this repo and install the required dependencies using the following commands:<br>
-  a) `git clone https://github.com/johannanguyen/goaldigger.git`<br>
+  a) `git clone https://github.com/johannanguyen/goaldigger-spint2.git`<br>
   b) `npm install`  
   c) `pip install flask-socketio`  
   d) `pip install eventlet`  
@@ -39,3 +39,4 @@ Tasks not completed, to be completed by the end of our Sprint 2:
   h) `npm install @material-ui/core`
   i) `npm install react-google-login`
   j) `npm install react-scroll-to-bottom`
+  k) `npm install --save react-router-dom`
