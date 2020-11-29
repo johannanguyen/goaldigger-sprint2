@@ -165,27 +165,11 @@ def on_connect():
 
 
 
-@app.route("/")
-def index():
-    """ Runs the app!!!"""
-    return flask.render_template("index.html")
-
-
-@app.route('/HomePage')
-def HomePage():
-    return flask.render_template("HomePage.html")
-
-@app.route('/UserProfile')
-def UserProfile():
-    return flask.render_template("UserProfile.html")
-
-@app.route('/AddGoal')
-def AddGoal():
-    return flask.render_template("AddGoal.html")
-
-@app.route('/Art')
-def Art():
-    return flask.render_template("Art.html")
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    print(path)
+    return render_template("index.html")
 
 
 

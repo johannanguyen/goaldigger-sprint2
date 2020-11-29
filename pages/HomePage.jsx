@@ -6,6 +6,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { clientSocket } from '../scripts/Socket';
 import { GoogleOut } from '../scripts/GoogleLogout';
 import ScrollToBottom from 'react-scroll-to-bottom';
+import GroupPage from './GroupPage';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 
 export default function HomePage() {
   const [goals, setGoals] = useState([]);
@@ -96,6 +99,8 @@ export default function HomePage() {
 
   return (
     <div className="root_container">
+      <h2>Link</h2>
+      
       <GoogleOut/>
       <div className="category_menu">
         <br />
@@ -134,7 +139,7 @@ export default function HomePage() {
       <div className="homepage_container">
         <ScrollToBottom>
         { goals.map((data, index) => (
-          <div>
+          <div key={index}>
             <Avatar src={data.img_url} />
 
             {data.name}

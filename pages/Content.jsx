@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import LandingPage from './LandingPage';
 import HomePage from './HomePage';
@@ -14,26 +13,23 @@ import Art from './Art';
 import Lifestyle from './Lifestyle';
 import Finance from './Finance';
 import Misc from './Misc';
+import GroupPage from './GroupPage';
 
 export default function Content() {
+  const All = () => <div>something</div>
+  function Home() {
+  return <h2>Home</h2>;
+}
   
   return (
-    <div>
-      <LandingPage />
-      <HomePage />
-      <UserProfile />
-      <AddGoal />
-      <Work />
-      <School />
-      <Exercise />
-      <Food />
-      <Art />
-      <Lifestyle />
-      <Finance />
-      <Misc />
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/"> <HomePage /> </Route>
+        
+      </Switch>
+    </Router>
   );
-  
+}
   /*
   return (
     <BrowserRouter>
@@ -50,4 +46,3 @@ export default function Content() {
     </BrowserRouter>
   );
   */
-}
