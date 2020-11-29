@@ -16,16 +16,28 @@ import Misc from './Misc';
 import GroupPage from './GroupPage';
 
 export default function Content() {
-  const All = () => <div>something</div>
-  function Home() {
-  return <h2>Home</h2>;
-}
+  const All = () => 
+  <div>
+    <LandingPage />
+    <HomePage />
+    <UserProfile />
+    <AddGoal />
+    <Work />
+    <School />
+    <Exercise />
+    <Food />
+    <Art />
+    <Lifestyle />
+    <Finance />
+    <Misc />
+  </div>
   
   return (
     <Router>
       <Switch>
-        <Route path="/"> <HomePage /> </Route>
-        
+        <Route exact path="/"> <All /> </Route>
+        <Route path="/Landing"> <LandingPage /> </Route>
+        <Route path="/:groupName" component={GroupPage}/>
       </Switch>
     </Router>
   );
