@@ -24,10 +24,12 @@ db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
 
+import models
+
 db.create_all()
 db.session.commit()
 
-import models
+
 
 
 EMIT_EXERCISE_NEWSFEED_CHANNEL = "homepage"
