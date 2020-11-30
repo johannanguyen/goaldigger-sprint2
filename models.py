@@ -37,10 +37,11 @@ def createDummyData2():
     db.session.add(Groups("Work", "Group for CS490 students", "GoalDigger", "Four students join forces to create a goal oriented social app"))
     db.session.commit()
     #########     MAKE SURE THIS EMAIL EXISTS IN YOUR TABLES, ELSE CHANGE THE NAME TO ONE THAT EXISTS     ##########
-    db.session.add(GroupsUsers, Users.query.filter_by(email="johanna@google.com").first().id, 1)
-    db.session.add(GroupsUsers, Users.query.filter_by(email="joey@google.com").first().id, 2)
-    db.session.add(GroupsUsers, Users.query.filter_by(email="cristianteranv@gmail.com").first().id, 2)
-    db.session.add(GroupsUsers, Users.query.filter_by(email="cdt34@njit.edu").first().id, 2)
+    db.session.add(GroupsUsers( Users.query.filter_by(email="johanna@google.com").first().id, 1))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="johanna@google.com").first().id, 2))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="joey@google.com").first().id, 2))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="cristianteranv@gmail.com").first().id, 2))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="cdt34@njit.edu").first().id, 2))
     db.session.commit()
 
 class Users(db.Model):

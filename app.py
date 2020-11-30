@@ -8,7 +8,12 @@ from dotenv import load_dotenv
 import requests
 from flask import request
 from datetime import datetime
-#SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+#MAYBE WE DON'T NEED THESE TWO LINES.
+from engineio.payload import Payload
+Payload.max_decode_packets = 50
+
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -55,9 +60,36 @@ def emit_newsfeed(channel, sid):
     print("running emit_newsfeed")
     server_socket.emit(channel, all_goals, sid)
 
-def emit_group_feed(channel, sid): #########################################################
-    print("in emit group feed", channel)
-    server_socket.emit(channel, None , sid)
+def emit_group_feed(channel, groupName, sid):
+    
+    groupObject = models.Groups.query.filter_by(name=groupName).first()
+    if groupObject:
+        group_info = {
+            "group_description": groupObject.description,
+            "sidebar_text": groupObject.sidebar_text,
+            "name": groupObject.name,
+        }
+        
+        group_goals = [
+            {
+                "description": db_goals.description,
+                "progress": db_goals.progress,
+                "username": db_users.name,
+                "img_url": db_users.img_url,
+                "category": db_goals.category,
+                "post_text": db_goals.post_text,
+            }
+            for db_users, db_goals, db_groups_users in\
+            db.session.query(models.Users, models.Goals, models.GroupsUsers)\
+            .filter(models.GroupsUsers.group_id == groupObject.id)\
+            .filter(models.Users.id == models.GroupsUsers.user_id)\
+            .filter(models.Goals.user_id == models.GroupsUsers.user_id)\
+            .order_by(models.Goals.date).all()
+        ]
+        print(group_goals)
+        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals} , sid)
+    else:
+        server_socket.emit(channel, None , sid)
 
 def emit_category(channel, sid):
     category_goals = [
@@ -88,7 +120,7 @@ def push_new_user_to_db(email, username, image, is_signed_in, id_token):
 @server_socket.on('group page')
 def send_group_info(data):
     print(data["groupName"])
-    emit_group_feed(GROUP_PAGE_REQUEST, request.sid)
+    emit_group_feed(GROUP_PAGE_REQUEST, data["groupName"], request.sid)
 
 @server_socket.on('new google user')
 def on_new_google_user(data):
