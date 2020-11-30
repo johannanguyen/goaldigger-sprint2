@@ -44,62 +44,10 @@ export default function HomePage() {
   }
   getGoogleUserInfo();
   getGoals();
-
-  function ChangePage() {
-    location.href = '/UserProfile';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-  /*
-  function WorkPage() {
-    location.href = '/Work';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function SchoolPage() {
-    location.href = '/School';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function ExercisePage() {
-    location.href = '/Exercise';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function FoodPage() {
-    location.href = '/Food';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function ArtPage() {
-    location.href = '/Art';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function LifePage() {
-    location.href = '/Life';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function FinancePage() {
-    location.href = '/Finance';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function MiscPage() {
-    location.href = '/Misc';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function GroupsPage() {
-    location.href = '/Groups';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-*/
   // do div box styling for the week
 
   return (
     <div className="root_container">
-      <h2>Link</h2>
       
       <GoogleOut/>
       <div className="category_menu">

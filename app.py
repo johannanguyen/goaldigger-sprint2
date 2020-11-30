@@ -34,6 +34,7 @@ db.session.commit()
 
 EMIT_EXERCISE_NEWSFEED_CHANNEL = "homepage"
 GOOGLE_INFO_RECEIVED_CHANNEL = "google info received"
+GROUP_PAGE_REQUEST = "group feed"
 
 def emit_newsfeed(channel, sid):
     all_goals = [
@@ -51,12 +52,15 @@ def emit_newsfeed(channel, sid):
         .filter(models.Users.id == models.Goals.user_id)\
         .order_by(models.Goals.date).all()
     ]
-    
+    print("running emit_newsfeed")
     server_socket.emit(channel, all_goals, sid)
 
+def emit_group_feed(channel, sid): #########################################################
+    print("in emit group feed", channel)
+    server_socket.emit(channel, None , sid)
 
 def emit_category(channel, sid):
-    work_goals = [
+    category_goals = [
         {
             "user_id": db_users.id,
             "username": db_users.name,
@@ -73,13 +77,18 @@ def emit_category(channel, sid):
         .order_by(models.Goals.date).all()
     ]
     
-    server_socket.emit(channel, work_goals, sid)
+    server_socket.emit(channel, category_goals, sid)
 
 
 def push_new_user_to_db(email, username, image, is_signed_in, id_token):
     db.session.add(models.Users(email, username, image, is_signed_in, id_token));
     db.session.commit();
 
+
+@server_socket.on('group page')
+def send_group_info(data):
+    print(data["groupName"])
+    emit_group_feed(GROUP_PAGE_REQUEST, request.sid)
 
 @server_socket.on('new google user')
 def on_new_google_user(data):

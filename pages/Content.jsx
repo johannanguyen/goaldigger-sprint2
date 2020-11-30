@@ -36,25 +36,10 @@ export default function Content() {
     <Router>
       <Switch>
         <Route exact path="/"> <All /> </Route>
-        <Route path="/Landing"> <LandingPage /> </Route>
+        <Route path="/landing"> <LandingPage /> </Route>
+        <Route path="/home" component={HomePage} />
         <Route path="/:groupName" component={GroupPage}/>
       </Switch>
     </Router>
   );
 }
-  /*
-  return (
-    <BrowserRouter>
-      <div>
-        <Switch>
-          <Route path="/Art" component={Art} />
-
-          <Route path="/AddGoal" component={AddGoal} />
-          <Route path="/UserProfile" component={UserProfile} />
-          <Route path="/HomePage" component={HomePage} />
-          <Route path="/" component={LandingPage} />
-        </Switch>
-      </div>
-    </BrowserRouter>
-  );
-  */
