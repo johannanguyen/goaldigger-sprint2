@@ -52,11 +52,6 @@ export default function AddGoal() {
     //ChangePage();
   };
 
-  function ChangePage() {
-    location.href = '/UserProfile';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
   const clickHandler = () => {
     clientSocket.emit('add_goal', {
       category, goal, progress, postText, users,
@@ -69,19 +64,7 @@ export default function AddGoal() {
   return (
     <div className="root_container">
       <GoogleOut />
-      {/*
-      <Button
-        variant="contained"
-        size="large"
-        color="white"
-        onClick={ChangePage}
-        style={{
-          backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-        }}
-      >
-        Back
-      </Button>
-      */}
+      
       <div className="content_container">
 
         <h2>Add Goal</h2>

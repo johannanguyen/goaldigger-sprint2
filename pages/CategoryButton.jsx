@@ -7,7 +7,7 @@ export function CategoryButton(props) {
           variant="contained"
           size="large"
           color="primary"
-                        // onClick={WorkPage}
+          onClick={props.click}
           style={{
             backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
           }}

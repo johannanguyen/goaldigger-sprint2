@@ -6,6 +6,8 @@ import LandingPage from './LandingPage';
 import HomePage from './HomePage';
 import UserProfile from './UserProfile';
 import AddGoal from './AddGoal';
+
+/*
 import Work from './Work';
 import School from './School';
 import Exercise from './Exercise';
@@ -14,6 +16,7 @@ import Art from './Art';
 import Lifestyle from './Lifestyle';
 import Finance from './Finance';
 import Misc from './Misc';
+*/
 
 export default function Content() {
   
@@ -45,15 +48,10 @@ export default function Content() {
     goal.style.display = 'block'; 
   }
   
-  //will put landingpage code directly into content.jsx then check if it is visible or not, 
-  //depending on that will depend on wheter or not to display the homepage
-  
   return (
     <div>
-    
-      {/*Landing Page*/}
-      <div id="land"> 
-        <button
+      {/*Home Page */}
+      <button
             variant="contained"
             size="large"
             color="white"
@@ -63,13 +61,10 @@ export default function Content() {
             }}
           >
             HomePage
-          </button>
-          <LandingPage />
-      </div>
-      
-      {/*Home Page */}
-      <div id="home" style={{ display: 'none' }}>
-        <button
+      </button>
+    
+      {/*User Profile */}
+      <button
           variant="contained"
           size="large"
           color="white"
@@ -79,25 +74,10 @@ export default function Content() {
           }}
         >
           User Profile
-        </button>
-        <HomePage />
-      </div>
+      </button>
       
-      {/*User Profile */}
-      <div id="prof" style={{ display: 'none' }}>
-        <button
-          variant="contained"
-          size="large"
-          color="white"
-          onClick={Home}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-         Home
-        </button>
-        
-        <button
+      {/*Add Goal */}
+      <button
           variant="contained"
           size="large"
           color="white"
@@ -107,24 +87,23 @@ export default function Content() {
           }}
         >
          Goal
-        </button>
-        
+      </button>
+      
+      
+      <div id="land"> 
+          <LandingPage />
+      </div>
+      
+      <div id="home" style={{ display: 'none' }}>
+        <HomePage />
+      </div>
+      
+      
+      <div id="prof" style={{ display: 'none' }}>
         <UserProfile />
        </div>
       
-      {/*Add Goal*/}
       <div id="goal" style={{ display: 'none' }}>
-        <button
-          variant="contained"
-          size="large"
-          color="white"
-          onClick={User}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-          User Profile
-        </button>
         <AddGoal />
       </div>
       

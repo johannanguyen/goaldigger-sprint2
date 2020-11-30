@@ -42,93 +42,11 @@ export default function Finance() {
   getGoogleUserInfo();
   getGoals();
 
-/*
-  function ChangePage() {
-    location.href = '/UserProfile';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-  
-  function WorkPage() {
-    location.href = '/Work';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function SchoolPage() {
-    location.href = '/School';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function ExercisePage() {
-    location.href = '/Exercise';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function FoodPage() {
-    location.href = '/Food';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function ArtPage() {
-    location.href = '/Art';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function LifePage() {
-    location.href = '/Life';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function FinancePage() {
-    location.href = '/Finance';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function MiscPage() {
-    location.href = '/Misc';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function GroupsPage() {
-    location.href = '/Groups';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-*/
-  // do div box styling for the week
 
   return (
-    <div className="root_container">
-      <GoogleOut/>
-      <div className="category_menu">
-        <br />
-        <CategoryButton category="Home" />
-        <CategoryButton category="Work" />
-        <CategoryButton category="School" />
-        <CategoryButton category="Exercise" />
-        <CategoryButton category="Food" />
-        <CategoryButton category="Art" />
-        <CategoryButton category="Lifestyle" />
-        <SelectedButton category="Finance" />
-        <CategoryButton category="Misc" />
-        <CategoryButton category="Groups" />
-      </div>
-
+    <div> {/*className="root_container">*/}
       <div className="header_menu">
         <h2>Finance</h2>
-        {/*
-        <Button
-          variant="contained"
-          size="large"
-          color="primary"
-          onClick={ChangePage}
-          style={{
-            backgroundColor: '0e99b6', minHeight: '60px', minWidth: '170px', border: '1px solid white',
-          }}
-        >
-        
-          User Profile
-        </Button>
-        */}
-
         <Avatar src={user.image} />
       </div>
 
