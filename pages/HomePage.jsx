@@ -85,73 +85,89 @@ export default function HomePage() {
   }
   
   function WorkPage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const workpage = document.getElementById('work');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     workpage.style.display = 'block'; 
   }
   
   function SchoolPage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const schoolpage = document.getElementById('school');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     schoolpage.style.display = 'block'; 
   }
   
   function ExercisePage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const exercisepage = document.getElementById('exercise');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     exercisepage.style.display = 'block'; 
   }
   
   function FoodPage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const foodpage = document.getElementById('food');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     foodpage.style.display = 'block'; 
   }
   
   function ArtPage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const artpage = document.getElementById('art');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     artpage.style.display = 'block'; 
   }
   
   function LifestylePage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const lifepage = document.getElementById('life');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     lifepage.style.display = 'block'; 
   }
   
   function FinancePage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const financepage = document.getElementById('finance');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     financepage.style.display = 'block'; 
   }
   
   function MiscPage() {
+    const homepage = document.getElementById('head');
     const button = document.getElementById('homebutton');
     const miscpage = document.getElementById('misc');
     
     Master();
+    homepage.style.display = 'none';
     button.style.display = 'block';
     miscpage.style.display = 'block'; 
   }

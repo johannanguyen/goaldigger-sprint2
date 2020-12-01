@@ -23,28 +23,36 @@ export default function Content() {
   function User() {
     const prof = document.getElementById('prof');
     const home = document.getElementById('home');
+    const land = document.getElementById('land');
     const goal = document.getElementById('goal');
     
-    prof.style.display = 'block';
     home.style.display = 'none'; 
     goal.style.display = 'none';
+    land.style.display = 'none';
+    prof.style.display = 'block';
   }
   
   function Home() {
     const prof = document.getElementById('prof');
     const home = document.getElementById('home');
     const land = document.getElementById('land');
+    const goal = document.getElementById('goal');
     
     prof.style.display = 'none';
     land.style.display = 'none';
+    goal.style.display = 'none'; 
     home.style.display = 'block'; 
   }
   
   function Goal() {
     const prof = document.getElementById('prof');
+    const home = document.getElementById('home');
+    const land = document.getElementById('land');
     const goal = document.getElementById('goal');
     
     prof.style.display = 'none';
+    land.style.display = 'none';
+    home.style.display = 'none';
     goal.style.display = 'block'; 
   }
   
