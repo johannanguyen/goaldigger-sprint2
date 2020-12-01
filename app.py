@@ -8,7 +8,12 @@ from dotenv import load_dotenv
 import requests
 from flask import request
 from datetime import datetime
-#SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+#MAYBE WE DON'T NEED THESE TWO LINES.
+from engineio.payload import Payload
+Payload.max_decode_packets = 50
+
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -24,14 +29,17 @@ db = flask_sqlalchemy.SQLAlchemy(app)
 db.init_app(app)
 db.app = app
 
+import models
+
 db.create_all()
 db.session.commit()
 
-import models
+
 
 
 EMIT_EXERCISE_NEWSFEED_CHANNEL = "homepage"
 GOOGLE_INFO_RECEIVED_CHANNEL = "google info received"
+GROUP_PAGE_REQUEST = "group feed"
 
 def emit_newsfeed(channel, sid):
     all_goals = [
@@ -49,12 +57,42 @@ def emit_newsfeed(channel, sid):
         .filter(models.Users.id == models.Goals.user_id)\
         .order_by(models.Goals.date).all()
     ]
-    
+    print("running emit_newsfeed")
     server_socket.emit(channel, all_goals, sid)
 
+def emit_group_feed(channel, groupName, sid):
+    
+    groupObject = models.Groups.query.filter_by(name=groupName).first()
+    if groupObject:
+        group_info = {
+            "group_description": groupObject.description,
+            "sidebar_text": groupObject.sidebar_text,
+            "name": groupObject.name,
+        }
+        
+        group_goals = [
+            {
+                "description": db_goals.description,
+                "progress": db_goals.progress,
+                "username": db_users.name,
+                "img_url": db_users.img_url,
+                "category": db_goals.category,
+                "post_text": db_goals.post_text,
+            }
+            for db_users, db_goals, db_groups_users in\
+            db.session.query(models.Users, models.Goals, models.GroupsUsers)\
+            .filter(models.GroupsUsers.group_id == groupObject.id)\
+            .filter(models.Users.id == models.GroupsUsers.user_id)\
+            .filter(models.Goals.user_id == models.GroupsUsers.user_id)\
+            .order_by(models.Goals.date).all()
+        ]
+        print(group_goals)
+        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals} , sid)
+    else:
+        server_socket.emit(channel, None , sid)
 
 def emit_category(channel, sid):
-    work_goals = [
+    category_goals = [
         {
             "user_id": db_users.id,
             "username": db_users.name,
@@ -71,13 +109,18 @@ def emit_category(channel, sid):
         .order_by(models.Goals.date).all()
     ]
     
-    server_socket.emit(channel, work_goals, sid)
+    server_socket.emit(channel, category_goals, sid)
 
 
 def push_new_user_to_db(email, username, image, is_signed_in, id_token):
     db.session.add(models.Users(email, username, image, is_signed_in, id_token));
     db.session.commit();
 
+
+@server_socket.on('group page')
+def send_group_info(data):
+    print(data["groupName"])
+    emit_group_feed(GROUP_PAGE_REQUEST, data["groupName"], request.sid)
 
 @server_socket.on('new google user')
 def on_new_google_user(data):
@@ -163,27 +206,11 @@ def on_connect():
 
 
 
-@app.route("/")
-def index():
-    """ Runs the app!!!"""
-    return flask.render_template("index.html")
-
-
-@app.route('/HomePage')
-def HomePage():
-    return flask.render_template("HomePage.html")
-
-@app.route('/UserProfile')
-def UserProfile():
-    return flask.render_template("UserProfile.html")
-
-@app.route('/AddGoal')
-def AddGoal():
-    return flask.render_template("AddGoal.html")
-
-@app.route('/Art')
-def Art():
-    return flask.render_template("Art.html")
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    print(path)
+    return render_template("index.html")
 
 
 
