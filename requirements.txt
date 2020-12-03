@@ -5,7 +5,7 @@ awscli==1.18.153
 backcall==0.2.0
 beautifulsoup4==4.9.3
 black==20.8b1
-botocore==1.18.12
+botocore
 cachetools==4.1.1
 certifi==2020.6.20
 cffi==1.14.3
@@ -32,7 +32,7 @@ google-auth-httplib2==0.0.4
 google-oauth==1.0.1
 googleapis-common-protos==1.52.0
 greenlet==0.4.17
-heroku==0.1.4
+heroku
 httplib2==0.18.1
 idna==2.10
 ikp3db==1.4.1
@@ -74,7 +74,6 @@ pylint-flask==0.6
 pylint-plugin-utils==0.6
 pyOpenSSL==19.1.0
 PySocks==1.7.1
-python-dateutil
 python-dotenv==0.14.0
 python-engineio==3.13.2
 python-socketio==4.6.0
