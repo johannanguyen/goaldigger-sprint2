@@ -15,7 +15,6 @@ colorama==0.4.3
 coverage==5.3
 crypto==1.4.1
 cryptography==3.1.1
-dataclasses==0.7
 decorator==4.4.2
 Django==2.0.2
 dnspython==1.16.0
