@@ -74,7 +74,7 @@ pylint-flask==0.6
 pylint-plugin-utils==0.6
 pyOpenSSL==19.1.0
 PySocks==1.7.1
-python-dateutil==2.1
+python-dateutil<3.0.0
 python-dotenv==0.14.0
 python-engineio==3.13.2
 python-socketio==4.6.0
