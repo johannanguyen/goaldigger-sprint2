@@ -32,6 +32,18 @@ def createDummyData():
     db.session.add(Goals(2, "Work", "I want to solve 2 hard leetcodes a day", "Started", "I can do this!"))
     db.session.commit()
 
+def createDummyData2():
+    db.session.add(Groups("Exercise", "We like to train our legs", "Turkey Legs", "Please see our routines at www.routines.com!"))
+    db.session.add(Groups("Work", "Group for CS490 students", "GoalDigger", "Four students join forces to create a goal oriented social app"))
+    db.session.commit()
+    #########     MAKE SURE THIS EMAIL EXISTS IN YOUR TABLES, ELSE CHANGE THE NAME TO ONE THAT EXISTS     ##########
+    db.session.add(GroupsUsers( Users.query.filter_by(email="johanna@google.com").first().id, 1))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="johanna@google.com").first().id, 2))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="joey@google.com").first().id, 2))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="cristianteranv@gmail.com").first().id, 2))
+    db.session.add(GroupsUsers( Users.query.filter_by(email="cdt34@njit.edu").first().id, 2))
+    db.session.commit()
+
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(200))
@@ -67,6 +79,29 @@ class Goals(db.Model):
         self.post_text = post_text
         
         
+class Groups(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String())
+    description = db.Column(db.String())
+    name = db.Column(db.String())
+    sidebar_text = db.Column(db.String())
+    created = db.Column(db.DateTime, default=datetime.now)
+    
+    def __init__(self, category, description, name, sidebar_text):
+        self.category = category
+        self.description = description
+        self.name = name
+        self.sidebar_text = sidebar_text
+        
+class GroupsUsers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
+    
+    def __init__(self, user_id, group_id):
+        self.user_id = user_id
+        self.group_id = group_id
+
 
 # class Posts(db.Model):
 #     '''Table for user posts'''
@@ -96,30 +131,6 @@ class Goals(db.Model):
 
 #     def __repr__(self):
 #         return "<Text: {}\nBy: {}>\n".format(self.text, self.user)
-        
-        
-# class Groups(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     category = db.Column(db.String())
-#     description = db.Column(db.String())
-#     name = db.Column(db.String())
-#     sidebar_text = db.Column(db.String())
-#     created = db.Column(db.DateTime, default=datetime.now)
-    
-#     def __init__(self, category, description, name, sidebar_text):
-#         self.category = category
-#         self.description = description
-#         self.name = name
-#         self.sidebar_text = sidebar_text
-        
-# class Groups_Users(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-#     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
-    
-#     def __init__(self, user_id, group_id):
-#         self.user_id = user_id
-#         self.group_id = group_id
 
 
 # Maybe this Enum is unnecesary.

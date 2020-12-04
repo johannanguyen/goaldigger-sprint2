@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import LandingPage from './LandingPage';
 import HomePage from './HomePage';
@@ -14,40 +13,33 @@ import Art from './Art';
 import Lifestyle from './Lifestyle';
 import Finance from './Finance';
 import Misc from './Misc';
+import GroupPage from './GroupPage';
 
 export default function Content() {
+  const All = () => 
+  <div>
+    <LandingPage />
+    <HomePage />
+    <UserProfile />
+    <AddGoal />
+    <Work />
+    <School />
+    <Exercise />
+    <Food />
+    <Art />
+    <Lifestyle />
+    <Finance />
+    <Misc />
+  </div>
   
   return (
-    <div>
-      <LandingPage />
-      <HomePage />
-      <UserProfile />
-      <AddGoal />
-      <Work />
-      <School />
-      <Exercise />
-      <Food />
-      <Art />
-      <Lifestyle />
-      <Finance />
-      <Misc />
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/"> <All /> </Route>
+        <Route path="/landing"> <LandingPage /> </Route>
+        <Route path="/home" component={HomePage} />
+        <Route path="/:groupName" component={GroupPage}/>
+      </Switch>
+    </Router>
   );
-  
-  /*
-  return (
-    <BrowserRouter>
-      <div>
-        <Switch>
-          <Route path="/Art" component={Art} />
-
-          <Route path="/AddGoal" component={AddGoal} />
-          <Route path="/UserProfile" component={UserProfile} />
-          <Route path="/HomePage" component={HomePage} />
-          <Route path="/" component={LandingPage} />
-        </Switch>
-      </div>
-    </BrowserRouter>
-  );
-  */
 }
