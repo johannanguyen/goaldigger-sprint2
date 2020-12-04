@@ -4,21 +4,9 @@ import { CategoryButton } from '../scripts/CategoryButton'
 import { clientSocket } from '../scripts/Socket';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Avatar from '@material-ui/core/Avatar';
+import { Chat, addResponseMessage, addUserMessage } from 'react-chat-popup';
 
-export default function GroupPage(){
-    const {path, url} = useRouteMatch()
-    let { groupName } = useParams()
-    const [groupGoals, setGroupGoals] = useState([]);
-    const [groupInfo, setGroupInfo] = useState({});
-        
-    //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
-    clientSocket.on("connect", () => {
-        console.log("socket id: ", clientSocket.id)
-        console.log(groupName)
-        console.log(path, url)
-        clientSocket.emit('group page', {"groupName": groupName})
-    })
-    // group data fields:
+// group data fields:
     // {
     //     id
     //     category
@@ -28,6 +16,41 @@ export default function GroupPage(){
     //     dateCreated
     //     newsFeed
     // }
+
+export default function GroupPage(){
+    const {path, url} = useRouteMatch()
+    let { groupName } = useParams()
+    const [groupGoals, setGroupGoals] = useState();
+    const [groupInfo, setGroupInfo] = useState({});
+        
+    //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
+    clientSocket.on("connect", () => {
+        console.log("socket id: ", clientSocket.id)
+        console.log(groupName)
+        console.log(path, url)
+        clientSocket.emit('group page', {"groupName": groupName})
+    })
+    
+    function handleNewUserMessage(newUserMessage){
+        console.log({
+            "groupName": groupName,
+            "groupId": groupInfo.groupId,
+            "newUserMessage": newUserMessage,
+            "userId": 1
+        })
+        clientSocket.emit("newUserMessage", 
+        {
+            "groupName": groupName,
+            "groupId": groupInfo.groupId,
+            "newUserMessage": newUserMessage,
+            "userId": 1
+        })
+    }
+    
+    React.useEffect(() => {
+        addResponseMessage("Welcome to this awesome chat!")
+        addUserMessage("Thanks for having me here!")
+    }, [])
     
     function getGroupGoals(){
         React.useEffect(() => {
@@ -82,6 +105,9 @@ export default function GroupPage(){
         : <div>Error 404! This group doesn't exist</div>
         }
         <div>This is the sidebar text that should go as a right-sided column: {groupInfo.sidebar_text}</div>
+        <Chat 
+        handleNewUserMessage={handleNewUserMessage}
+        />
     </div>
     )
 }
