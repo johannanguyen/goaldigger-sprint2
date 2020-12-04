@@ -5,7 +5,6 @@ import { clientSocket } from '../scripts/Socket';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Avatar from '@material-ui/core/Avatar';
 
-
 export default function GroupPage(){
     const {path, url} = useRouteMatch()
     let { groupName } = useParams()
