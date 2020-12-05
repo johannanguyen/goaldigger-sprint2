@@ -4,27 +4,18 @@ import { CategoryButton } from '../scripts/CategoryButton'
 import { clientSocket } from '../scripts/Socket';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Avatar from '@material-ui/core/Avatar';
-import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled } from 'react-chat-popup';
+import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled, renderCustomComponent } from 'react-chat-popup';
 import Cookies from 'js-cookie'
 
-// group data fields:
-    // {
-    //     id
-    //     category
-    //     description
-    //     name
-    //     sidebar_text
-    //     dateCreated
-    //     newsFeed
-    // }
 
 export default function GroupPage(){
     const {path, url} = useRouteMatch()
     let { groupName } = useParams()
     const [groupGoals, setGroupGoals] = useState();
     const [groupInfo, setGroupInfo] = useState({});
+    const [thing, setThing] = useState(false)
     const title = "Welcome to " + groupName + "'s chatroom!"
-    var placeholder = "You need to login first!"
+    var placeholder = "Type a message..."
     
     //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
     clientSocket.on("connect", () => {
@@ -34,44 +25,62 @@ export default function GroupPage(){
         clientSocket.emit('group page', {"groupName": groupName})
     })
     
+    function loadOldMessages(messages){
+        messages.map((data)=>{
+            if (data.userId == Cookies.get("user_id"))
+                addUserMessage(data.message)
+            else
+                addResponseMessage(data.message)
+        })
+    }
+    
     function handleNewUserMessage(newUserMessage){
-        addResponseMessage(newUserMessage)
         clientSocket.emit("newUserMessage",
         {
+            "groupName": groupName,
             "groupId": groupInfo.groupId,
             "newUserMessage": newUserMessage,
             "userId": Cookies.get("user_id")
         })
+        
     }
+    
+    React.useEffect(()=>{
+        clientSocket.on("broadcast", handleBroadcast)
+        return ()=>{clientSocket.off("broadcast", handleBroadcast)}
+    },[])
+    
+    function handleBroadcast(broadcastData){
+        console.log("broadcasted: ", broadcastData)
+        if ( groupName == broadcastData.groupName)
+            addResponseMessage(broadcastData.newMessage)
+    }
+    
 
     React.useEffect(() => {
-        addResponseMessage("Welcome to this awesome chat!")
-        addUserMessage("Thanks for having me here!")
-        toggleInputDisabled()
-        if(Cookies.get("isLoggedIn")){
+        if(!Cookies.get("isLoggedIn")){
             toggleInputDisabled()
-            placeholder = "Type a message..."
+            placeholder = "You need to login first!"
         }
     }, [])
     
-    function getGroupGoals(){
+    function getGroupData(){
         React.useEffect(() => {
-            clientSocket.on('group feed', updateGroupGoals)
+            clientSocket.on('group feed', updateGroupData)
             return () => {
-                clientSocket.off('group feed', updateGroupGoals)
+                clientSocket.off('group feed', updateGroupData)
             }
         })
     }
 
-    function updateGroupGoals(data) {
+    function updateGroupData(data) {
         console.log("data: ", data)
         setGroupGoals(data.group_goals)
         setGroupInfo(data.group_info)
+        loadOldMessages(data.group_messages)
     }
     
-    
-    
-    getGroupGoals()
+    getGroupData()
     
     return (
     <div className="root_container">

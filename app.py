@@ -87,7 +87,18 @@ def emit_group_feed(channel, groupName, sid):
             .filter(models.Goals.user_id == models.GroupsUsers.user_id)\
             .order_by(models.Goals.date).all()
         ]
-        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals} , sid)
+        
+        group_messages = [
+            {
+                "message": db_messages.text,
+                "userId": db_messages.user_id
+            }
+            for db_messages in\
+            models.Messages.query\
+            .filter_by(group_id = groupObject.id)\
+            .order_by(models.Messages.date).all()
+        ]
+        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals, "group_messages": group_messages} , sid)
     else:
         server_socket.emit(channel, None , sid)
 
@@ -119,8 +130,14 @@ def push_new_user_to_db(email, username, image, is_signed_in, id_token):
 
 @server_socket.on('group page')
 def send_group_info(data):
-    #print(data["groupName"])
+    print(data["groupName"])
     emit_group_feed(GROUP_PAGE_REQUEST, data["groupName"], request.sid)
+
+@server_socket.on("newUserMessage")
+def handle_message(data):
+    db.session.add(models.Messages(data['newUserMessage'], data['userId'], data['groupId']))
+    db.session.commit()
+    server_socket.emit("broadcast", {"newMessage": data['newUserMessage'], "groupName": "another group"}, broadcast=True, include_self=False)
 
 @server_socket.on('google login')
 def on_new_google_user(data):
