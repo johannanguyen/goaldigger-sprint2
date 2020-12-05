@@ -35,9 +35,10 @@ export default function Content() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/"> <All /> </Route>
-        <Route path="/landing"> <LandingPage /> </Route>
+        <Route exact path="/" component={LandingPage}/>
+        <Route path="/all" component={All} />
         <Route path="/home" component={HomePage} />
+        <Route path="/user" component={UserProfile} />
         <Route path="/:groupName" component={GroupPage}/>
       </Switch>
     </Router>

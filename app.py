@@ -122,7 +122,7 @@ def send_group_info(data):
     #print(data["groupName"])
     emit_group_feed(GROUP_PAGE_REQUEST, data["groupName"], request.sid)
 
-@server_socket.on('new google user')
+@server_socket.on('google login')
 def on_new_google_user(data):
     # Grabs all of the users CURRENTLY in the database
     # Grabs the new google login email and checks to see if it is in the list of emails
@@ -146,7 +146,7 @@ def on_new_google_user(data):
     personal_profile = {
         "username": data["username"],
         "image": data["image"],
-        "primary_id": user.id
+        "user_id": user.id
     }
 
     personal_goals = [
@@ -156,8 +156,6 @@ def on_new_google_user(data):
         }
         for personal_goal in models.Goals.query.filter(models.Goals.user_id == user.id).all()
     ]
-
-
     server_socket.emit("google info received", personal_profile, request.sid)
     server_socket.emit("user goals", personal_goals, request.sid)
 

@@ -4,7 +4,8 @@ import { CategoryButton } from '../scripts/CategoryButton'
 import { clientSocket } from '../scripts/Socket';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import Avatar from '@material-ui/core/Avatar';
-import { Chat, addResponseMessage, addUserMessage } from 'react-chat-popup';
+import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled } from 'react-chat-popup';
+import Cookies from 'js-cookie'
 
 // group data fields:
     // {
@@ -23,7 +24,8 @@ export default function GroupPage(){
     const [groupGoals, setGroupGoals] = useState();
     const [groupInfo, setGroupInfo] = useState({});
     const title = "Welcome to " + groupName + "'s chatroom!"
-        
+    var placeholder = "You need to login first!"
+    
     //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
     clientSocket.on("connect", () => {
         console.log("socket id: ", clientSocket.id)
@@ -33,25 +35,23 @@ export default function GroupPage(){
     })
     
     function handleNewUserMessage(newUserMessage){
-        console.log({
-            "groupName": groupName,
-            "groupId": groupInfo.groupId,
-            "newUserMessage": newUserMessage,
-            "userId": 1
-        })
         addResponseMessage(newUserMessage)
-        clientSocket.emit("newUserMessage", 
+        clientSocket.emit("newUserMessage",
         {
-            "groupName": groupName,
             "groupId": groupInfo.groupId,
             "newUserMessage": newUserMessage,
-            "userId": 1
+            "userId": Cookies.get("user_id")
         })
     }
-    
+
     React.useEffect(() => {
         addResponseMessage("Welcome to this awesome chat!")
         addUserMessage("Thanks for having me here!")
+        toggleInputDisabled()
+        if(Cookies.get("isLoggedIn")){
+            toggleInputDisabled()
+            placeholder = "Type a message..."
+        }
     }, [])
     
     function getGroupGoals(){
@@ -62,12 +62,14 @@ export default function GroupPage(){
             }
         })
     }
-  
+
     function updateGroupGoals(data) {
         console.log("data: ", data)
         setGroupGoals(data.group_goals)
         setGroupInfo(data.group_info)
     }
+    
+    
     
     getGroupGoals()
     
@@ -110,6 +112,7 @@ export default function GroupPage(){
         <Chat 
         handleNewUserMessage={handleNewUserMessage}
         title={title}
+        senderPlaceHolder={placeholder}
         />
     </div>
     )

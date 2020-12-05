@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GoogleButton } from '../scripts/GoogleLogin';
+import GoogleButton from '../scripts/GoogleButton'
 import { Cookies } from 'js-cookie'
 import './styles.css';
 
@@ -7,7 +7,7 @@ export default function LandingPage() {
   return (
     <div className="root_container">
       <div className="button_container">
-        <GoogleButton />
+      <GoogleButton />
       </div>
 
       <div className="content_container">
