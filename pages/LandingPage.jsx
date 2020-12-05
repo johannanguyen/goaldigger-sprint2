@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { GoogleButton } from '../scripts/GoogleLogin';
+import { Cookies } from 'js-cookie'
 import './styles.css';
 
 export default function LandingPage() {

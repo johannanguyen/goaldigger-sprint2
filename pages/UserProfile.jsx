@@ -34,15 +34,6 @@ export default function UserProfile() {
     setGoals(data);
   }
 
-  function ChangePage() {
-    location.href = '/AddGoal';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
-  function GoBack() {
-    location.href = '/HomePage';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
 
   getGoogleUserInfo();
   getGoalInfo();

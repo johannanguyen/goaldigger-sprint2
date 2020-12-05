@@ -22,6 +22,7 @@ export default function GroupPage(){
     let { groupName } = useParams()
     const [groupGoals, setGroupGoals] = useState();
     const [groupInfo, setGroupInfo] = useState({});
+    const title = "Welcome to " + groupName + "'s chatroom!"
         
     //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
     clientSocket.on("connect", () => {
@@ -38,6 +39,7 @@ export default function GroupPage(){
             "newUserMessage": newUserMessage,
             "userId": 1
         })
+        addResponseMessage(newUserMessage)
         clientSocket.emit("newUserMessage", 
         {
             "groupName": groupName,
@@ -107,6 +109,7 @@ export default function GroupPage(){
         <div>This is the sidebar text that should go as a right-sided column: {groupInfo.sidebar_text}</div>
         <Chat 
         handleNewUserMessage={handleNewUserMessage}
+        title={title}
         />
     </div>
     )

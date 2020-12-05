@@ -1,6 +1,7 @@
 import { GoogleLogin } from 'react-google-login';
 import * as React from 'react';
 import { clientSocket } from './Socket';
+import { Cookies } from 'js-cookie';
 
 const responseGoogle = (response) => {
   console.log('Could not log in: ', response);
@@ -13,13 +14,6 @@ function get_info(google_user) {
     username: google_user.profileObj.name,
     image: google_user.profileObj.imageUrl,
   });
-
-  //ChangePage();
-}
-
-function ChangePage() {
-  location.href = '/HomePage';
-  // <button  onclick="ChangePage()">index.html</button>
 }
 
 export function GoogleButton() {
