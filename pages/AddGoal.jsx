@@ -17,6 +17,10 @@ export default function AddGoal() {
   const [progress, setProgress] = useState('');
   const [postText, setPostText] = useState('');
 
+
+////////////////////////////////////////////////////////
+///               PUT A SOCKET.OFF!!                 ///
+////////////////////////////////////////////////////////
   function getGoogleUserInfo() {
     React.useEffect(() => {
       clientSocket.on('google info received', (data) => {

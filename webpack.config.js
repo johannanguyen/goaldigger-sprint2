@@ -8,8 +8,12 @@ module.exports = {
         rules: [
             {
               test: /\.css$/, 
-              use: ["style-loader", "css-loader"]},
-            
+              use: ["style-loader", "css-loader"]
+            },
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                loader: 'file-loader'
+            },
             {
                 test: /\.(js|jsx)$/,
                 exclude: /(node_modules)/,

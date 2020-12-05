@@ -118,19 +118,21 @@ class GroupsUsers(db.Model):
 #         self.title = title
 #         self.text = text
 
-# class Messages(db.Model):
-#     '''Table for chat messages.'''
-#     id = db.Column(db.Integer, primary_key=True)
-#     text = db.Column(db.String(300))
-#     date = db.Column(db.DateTime, default=datetime.now)
-#     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+class Messages(db.Model):
+    '''Table for chat messages.'''
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String())
+    date = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'))
 
-#     def __init__(self, text, user_id):
-#         self.text = text
-#         self.user_id = user_id
+    def __init__(self, text, user_id, group_id):
+        self.text = text
+        self.user_id = user_id
+        self.group_id = group_id
 
-#     def __repr__(self):
-#         return "<Text: {}\nBy: {}>\n".format(self.text, self.user)
+    def __repr__(self):
+        return "<Text: {}\nBy: {}>\n".format(self.text, self.user)
 
 
 # Maybe this Enum is unnecesary.

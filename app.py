@@ -68,6 +68,7 @@ def emit_group_feed(channel, groupName, sid):
             "group_description": groupObject.description,
             "sidebar_text": groupObject.sidebar_text,
             "name": groupObject.name,
+            "groupId": groupObject.id
         }
         
         group_goals = [
@@ -86,8 +87,18 @@ def emit_group_feed(channel, groupName, sid):
             .filter(models.Goals.user_id == models.GroupsUsers.user_id)\
             .order_by(models.Goals.date).all()
         ]
-        print(group_goals)
-        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals} , sid)
+        
+        group_messages = [
+            {
+                "message": db_messages.text,
+                "userId": db_messages.user_id
+            }
+            for db_messages in\
+            models.Messages.query\
+            .filter_by(group_id = groupObject.id)\
+            .order_by(models.Messages.date).all()
+        ]
+        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals, "group_messages": group_messages} , sid)
     else:
         server_socket.emit(channel, None , sid)
 
@@ -122,7 +133,13 @@ def send_group_info(data):
     print(data["groupName"])
     emit_group_feed(GROUP_PAGE_REQUEST, data["groupName"], request.sid)
 
-@server_socket.on('new google user')
+@server_socket.on("newUserMessage")
+def handle_message(data):
+    db.session.add(models.Messages(data['newUserMessage'], data['userId'], data['groupId']))
+    db.session.commit()
+    server_socket.emit("broadcast", {"newMessage": data['newUserMessage'], "groupName": "another group"}, broadcast=True, include_self=False)
+
+@server_socket.on('google login')
 def on_new_google_user(data):
     # Grabs all of the users CURRENTLY in the database
     # Grabs the new google login email and checks to see if it is in the list of emails
@@ -146,7 +163,7 @@ def on_new_google_user(data):
     personal_profile = {
         "username": data["username"],
         "image": data["image"],
-        "primary_id": user.id
+        "user_id": user.id
     }
 
     personal_goals = [
@@ -156,8 +173,6 @@ def on_new_google_user(data):
         }
         for personal_goal in models.Goals.query.filter(models.Goals.user_id == user.id).all()
     ]
-
-
     server_socket.emit("google info received", personal_profile, request.sid)
     server_socket.emit("user goals", personal_goals, request.sid)
 
@@ -204,14 +219,16 @@ def on_connect():
     emit_newsfeed(EMIT_EXERCISE_NEWSFEED_CHANNEL, request.sid)
     #emit_google_info(GOOGLE_INFO_RECEIVED_CHANNEL)
 
-
-
+        
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    print(path)
+    if path[-4:] == ".png":
+        try:
+            return flask.send_from_directory('./', path)
+        except:
+            return "File not found", 404
     return render_template("index.html")
-
 
 
 if __name__ == "__main__":
