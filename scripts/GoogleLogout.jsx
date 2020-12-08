@@ -2,12 +2,14 @@ import { GoogleLogout } from 'react-google-login';
 import * as React from 'react';
 import { useHistory } from "react-router-dom";
 import { clientSocket } from './Socket';
-
+import Cookies from 'js-cookie'
 
 export function GoogleOut() {
   const history = useHistory();
 
   function logout() {
+    Cookies.set("isLoggedIn", false)
+    Cookies.remove("user")
     history.push('/');
   }
 

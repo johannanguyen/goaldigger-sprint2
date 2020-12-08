@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import Fab from '@material-ui/core/Fab';
 import { clientSocket } from '../scripts/Socket';
-import { GoogleOut } from '../scripts/GoogleLogout';
+import GoogleButton from '../scripts/GoogleButton';
 import { Link }  from "react-router-dom";
 import { Button } from '@material-ui/core';
+import { useHistory } from "react-router-dom"
 
 export default function UserProfile(props) {
   const { goals, user } = props;
+  const history = useHistory()
 
   return (
     <div className="root_container">
-      <GoogleOut/>
+    
+<Button
+            variant="contained"
+            color="primary"
+            onClick={() => {history.push('/home')}}
+            style={{ backgroundColor: '0e99b6' }}
+          >
+            Home
+          </Button>
+      <GoogleButton/>
       {/*
       <Button
         variant="contained"

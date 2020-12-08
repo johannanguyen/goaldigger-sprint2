@@ -4,9 +4,10 @@ import { CategoryButton } from '../scripts/CategoryButton'
 import { clientSocket } from '../scripts/Socket';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { Avatar, Button } from '@material-ui/core';
-import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled, renderCustomComponent } from 'react-chat-popup';
+import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled } from 'react-chat-popup';
 import Cookies from 'js-cookie'
 import { Link }  from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 export default function GroupPage(props){
@@ -17,14 +18,12 @@ export default function GroupPage(props){
     const [groupInfo, setGroupInfo] = useState({});
     const title = "Welcome to " + groupName + "'s chatroom!"
     var placeholder = "Type a message..."
+    const history = useHistory();
 
     //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
-    clientSocket.on("connect", () => {
-        console.log("socket id: ", clientSocket.id)
-        console.log(groupName)
-        console.log(path, url)
-        clientSocket.emit('group page', {"groupName": groupName})
-    })
+    
+    
+    clientSocket.emit('group page', {"groupName": groupName})
     
     function loadOldMessages(messages){
         console.log(Cookies.get("user_id"))
@@ -39,7 +38,7 @@ export default function GroupPage(props){
                 
         })
     }
-    
+
     function handleNewUserMessage(newUserMessage){
         clientSocket.emit("newUserMessage",
         {
@@ -89,7 +88,15 @@ export default function GroupPage(props){
     getGroupData()
     return (
     <div className="root_container">
-
+    
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {history.push('/home')}}
+            style={{ backgroundColor: '0e99b6' }}>
+        Home
+        </Button>
+        
         <h2>Welcome to {groupName}'s group page!</h2>
         <div>This is our group's description: {groupInfo.group_description}</div>
         <div className="category_menu">

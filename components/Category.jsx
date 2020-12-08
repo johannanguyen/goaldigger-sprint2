@@ -5,7 +5,7 @@ import { SelectedButton } from '../scripts/SelectedButton'
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Button } from '@material-ui/core';
 import { clientSocket } from '../scripts/Socket';
-import { GoogleOut } from '../scripts/GoogleLogout';
+import GoogleButton from '../scripts/GoogleButton'
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { useHistory } from "react-router-dom";
 
@@ -28,7 +28,15 @@ function Category(props) {
 
   return (
     <div className="root_container">
-      <GoogleOut/>
+      <GoogleButton />
+      <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {history.push('/GoalDigger')}}
+            style={{ backgroundColor: '0e99b6' }}
+          >
+            GoalDigger
+          </Button>
       <div className="category_menu">
         <br />
         {categories.map((category) => {

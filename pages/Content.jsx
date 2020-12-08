@@ -8,6 +8,7 @@ import AddGoal from './AddGoal';
 import Category from '../components/Category';
 import { clientSocket } from '../scripts/Socket';
 import GroupPage from './GroupPage';
+import Cookies from 'js-cookie';
 
 export default function Content() {
   const [user, setUser] = useState({});
@@ -28,6 +29,8 @@ export default function Content() {
   useEffect(() => {
     clientSocket.on('google info received', (data) => {
       console.log('Received this in the add goal section: ', data);
+      Cookies.set("user", data)
+      Cookies.set("isLoggedIn", true)
       setUser(data);
     });
   }, []);
