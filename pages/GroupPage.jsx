@@ -3,20 +3,21 @@ import { useParams, useRouteMatch } from "react-router-dom"
 import { CategoryButton } from '../scripts/CategoryButton'
 import { clientSocket } from '../scripts/Socket';
 import ScrollToBottom from 'react-scroll-to-bottom';
-import Avatar from '@material-ui/core/Avatar';
+import { Avatar, Button } from '@material-ui/core';
 import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled, renderCustomComponent } from 'react-chat-popup';
 import Cookies from 'js-cookie'
+import { Link }  from "react-router-dom";
 
 
-export default function GroupPage(){
+export default function GroupPage(props){
+    const { user } = props;
     const {path, url} = useRouteMatch()
     let { groupName } = useParams()
-    const [groupGoals, setGroupGoals] = useState();
+    const [groupGoals, setGroupGoals] = useState([]);
     const [groupInfo, setGroupInfo] = useState({});
-    const [thing, setThing] = useState(false)
     const title = "Welcome to " + groupName + "'s chatroom!"
     var placeholder = "Type a message..."
-    
+
     //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
     clientSocket.on("connect", () => {
         console.log("socket id: ", clientSocket.id)
@@ -86,10 +87,10 @@ export default function GroupPage(){
     }
     
     getGroupData()
-    
     return (
     <div className="root_container">
-        <h2>Welcome to {groupInfo.name}'s group page!</h2>
+
+        <h2>Welcome to {groupName}'s group page!</h2>
         <div>This is our group's description: {groupInfo.group_description}</div>
         <div className="category_menu">
             <CategoryButton category="group1" />
