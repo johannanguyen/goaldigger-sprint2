@@ -1,46 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import Fab from '@material-ui/core/Fab';
 import { clientSocket } from '../scripts/Socket';
-import { GoogleOut } from '../scripts/GoogleLogout';
+import GoogleButton from '../scripts/GoogleButton';
+import { Link }  from "react-router-dom";
+import { Button } from '@material-ui/core';
+import { useHistory } from "react-router-dom"
 
-export default function UserProfile() {
-  const [user, setUser] = React.useState([]);
-  const [goals, setGoals] = React.useState([]);
-
-  function getGoogleUserInfo() {
-    React.useEffect(() => {
-      clientSocket.on('google info received', updateGoogleUserInfo);
-      return () => {
-        clientSocket.off('google info received', updateGoogleUserInfo);
-      };
-    });
-  }
-
-  function updateGoogleUserInfo(data) {
-    setUser(data);
-  }
-
-  function getGoalInfo() {
-    React.useEffect(() => {
-      clientSocket.on('user goals', updateGoalInfo);
-      return () => {
-        clientSocket.off('user goals', updateGoalInfo);
-      };
-    });
-  }
-
-  function updateGoalInfo(data) {
-    console.log('Received goal info: ', data);
-    setGoals(data);
-  }
-
-
-  getGoogleUserInfo();
-  getGoalInfo();
+export default function UserProfile(props) {
+  const { goals, user } = props;
+  const history = useHistory()
 
   return (
     <div className="root_container">
-      <GoogleOut/>
+    
+<Button
+            variant="contained"
+            color="primary"
+            onClick={() => {history.push('/home')}}
+            style={{ backgroundColor: '0e99b6' }}
+          >
+            Home
+          </Button>
+      <GoogleButton/>
       {/*
       <Button
         variant="contained"
@@ -91,9 +72,11 @@ export default function UserProfile() {
         </div>
       </div>
       <div align="right">
+      <Button component={Link} to="/add">
         <Fab color="primary" size="small" style={{ backgroundColor: '0e99b6' }}>
           +
         </Fab>
+      </Button>
       </div>
     </div>
   );

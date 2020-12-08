@@ -1,9 +1,10 @@
 import * as React from 'react';
 import GoogleButton from '../scripts/GoogleButton'
-import { Cookies } from 'js-cookie'
+import Cookies from 'js-cookie'
 import './styles.css';
 
 export default function LandingPage() {
+  console.log(Cookies.get())
   return (
     <div className="root_container">
       <div className="button_container">
