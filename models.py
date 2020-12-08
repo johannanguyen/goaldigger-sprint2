@@ -82,15 +82,15 @@ class Goals(db.Model):
 class Groups(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String())
-    description = db.Column(db.String())
     name = db.Column(db.String())
+    description = db.Column(db.String())
     sidebar_text = db.Column(db.String())
     created = db.Column(db.DateTime, default=datetime.now)
     
-    def __init__(self, category, description, name, sidebar_text):
+    def __init__(self, category, name, description, sidebar_text):
         self.category = category
-        self.description = description
         self.name = name
+        self.description = description
         self.sidebar_text = sidebar_text
         
 class GroupsUsers(db.Model):

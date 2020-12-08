@@ -5,6 +5,7 @@ import LandingPage from './LandingPage';
 import HomePage from './HomePage';
 import UserProfile from './UserProfile';
 import AddGoal from './AddGoal';
+import AddGroup from './AddGroup';
 import Category from '../components/Category';
 import { clientSocket } from '../scripts/Socket';
 import GroupPage from './GroupPage';
@@ -48,6 +49,7 @@ export default function Content() {
       <Switch>
         <Route exact path="/"><LandingPage /></Route>
         <Route exact path="/add"><AddGoal user={user}/></Route>
+        <Route exact path="/addgroup"><AddGroup /></Route>
         <Route exact path="/profile"><UserProfile goals={userGoals} user={user}/></Route>
         {categories.map((category) => {
           return (<Route exact path={`/${category.toLowerCase()}`}>
