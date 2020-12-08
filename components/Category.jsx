@@ -25,18 +25,25 @@ function Category(props) {
         }, [title]);
 
 
+    const useStyles = makeStyles((theme) => ({
+      root: {
+        display: 'flex',
+        '& > *': {
+          margin: theme.spacing(1),
+        },
+      },
+      large: {
+        width: theme.spacing(7),
+        height: theme.spacing(7),
+      },
+    }));
+  
+  const classes = useStyles();
 
   return (
     <div className="root_container">
       <GoogleButton />
-      <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {history.push('/GoalDigger')}}
-            style={{ backgroundColor: '0e99b6' }}
-          >
-            GoalDigger
-          </Button>
+      
       <div className="category_menu">
         <br />
         {categories.map((category) => {
@@ -49,38 +56,50 @@ function Category(props) {
                 />
             );
         })}
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {history.push('/GoalDigger')}}
+            style={{ backgroundColor: '0e99b6' }}
+          >
+            GoalDigger
+          </Button>
       </div>
 
       
-
-      <div className="homepage_container">
       <div className="header_menu">
         <h2>{ title }</h2>
         <Button component={Link} to="/profile">
           <Avatar src={user.image} />
         </Button>
       </div>
-        <ScrollToBottom>
+        <ScrollToBottom className="newsfeed_container">
         { categoryGoals.map((data, index) => (
           <div>
-            <Avatar src={data.img_url} />
-
+            <div className="avatar">
+            <Avatar src={data.img_url} className={classes.large} />
+            </div>
+            <b>
             {data.username}
             {' '}
-            <b>{data.progress}</b>
-            {' '}
+            {data.progress}
             :
             {' '}
             {data.description}
             <br />
+            <br/>
+            </b>
             "
             {data.post_text}
             "
+
+            <br />
+            <br />
+            <hr/>
           </div>
         )) }
         </ScrollToBottom>
       </div>
-    </div>
   );
 }
 

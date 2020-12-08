@@ -12,7 +12,7 @@ export function CategoryButton(props) {
                     // onClick={WorkPage}
       style={{
         backgroundColor: selected ? '81c0cd' : '0e99b6',
-        minHeight: '53px',
+        minHeight: '70px',
         minWidth: '170px',
         border: '1px solid white',
       }}

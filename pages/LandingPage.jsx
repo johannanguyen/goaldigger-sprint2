@@ -8,10 +8,12 @@ export default function LandingPage() {
   return (
     <div className="root_container">
       <div className="button_container">
-      <GoogleButton />
+        <GoogleButton />
       </div>
 
       <div className="content_container">
+        <br />
+        <br />
         <br />
         <br />
         <br />
