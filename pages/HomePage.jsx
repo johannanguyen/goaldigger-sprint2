@@ -4,10 +4,11 @@ import { SelectedButton } from '../scripts/SelectedButton'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import { clientSocket } from '../scripts/Socket';
-import { GoogleOut } from '../scripts/GoogleLogout';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import GroupPage from './GroupPage';
+import GoogleButton from '../scripts/GoogleButton'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Cookies from "js-cookie"
 
 
 export default function HomePage() {
@@ -20,7 +21,9 @@ export default function HomePage() {
       minWidth: 150,
     },
   }));
-  
+
+  console.log("On Connect, cookies: ", Cookies.get())
+
   function getGoals(){
     React.useEffect(() => {
       clientSocket.on('homepage', updateGoals)
@@ -49,7 +52,7 @@ export default function HomePage() {
   return (
     <div className="root_container">
       
-      <GoogleOut/>
+      <GoogleButton />
       <div className="category_menu">
         <br />
         <SelectedButton category="Home" />

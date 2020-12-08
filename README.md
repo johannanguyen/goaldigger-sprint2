@@ -40,3 +40,5 @@ Tasks not completed, to be completed by the end of our Sprint 2:
   i) `npm install react-google-login`
   j) `npm install react-scroll-to-bottom`
   k) `npm install --save react-router-dom`
+npm install popup-chat-react
+npm i emoji-js
