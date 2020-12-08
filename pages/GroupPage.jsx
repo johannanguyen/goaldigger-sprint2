@@ -3,14 +3,20 @@ import { useParams, useRouteMatch } from "react-router-dom"
 import { CategoryButton } from '../scripts/CategoryButton'
 import { clientSocket } from '../scripts/Socket';
 import ScrollToBottom from 'react-scroll-to-bottom';
-import Avatar from '@material-ui/core/Avatar';
+import { Avatar, Button } from '@material-ui/core';
+import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled, renderCustomComponent } from 'react-chat-popup';
+import Cookies from 'js-cookie'
+import { Link }  from "react-router-dom";
 
 
-export default function GroupPage(){
+export default function GroupPage(props){
+    const { user } = props;
     const {path, url} = useRouteMatch()
     let { groupName } = useParams()
     const [groupGoals, setGroupGoals] = useState([]);
     const [groupInfo, setGroupInfo] = useState({});
+    const title = "Welcome to " + groupName + "'s chatroom!"
+    var placeholder = "Type a message..."
 
     //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
     clientSocket.on("connect", () => {
@@ -19,26 +25,66 @@ export default function GroupPage(){
         console.log(path, url)
         clientSocket.emit('group page', {"groupName": groupName})
     })
+    
+    function loadOldMessages(messages){
+        messages.map((data)=>{
+            if (data.userId == Cookies.get("user_id"))
+                addUserMessage(data.message)
+            else
+                addResponseMessage(data.message)
+        })
+    }
+    
+    function handleNewUserMessage(newUserMessage){
+        clientSocket.emit("newUserMessage",
+        {
+            "groupName": groupName,
+            "groupId": groupInfo.groupId,
+            "newUserMessage": newUserMessage,
+            "userId": Cookies.get("user_id")
+        })
+        
+    }
+    
+    React.useEffect(()=>{
+        clientSocket.on("broadcast", handleBroadcast)
+        return ()=>{clientSocket.off("broadcast", handleBroadcast)}
+    },[])
+    
+    function handleBroadcast(broadcastData){
+        console.log("broadcasted: ", broadcastData)
+        if ( groupName == broadcastData.groupName)
+            addResponseMessage(broadcastData.newMessage)
+    }
+    
 
-    function getGroupGoals(){
+    React.useEffect(() => {
+        if(!Cookies.get("isLoggedIn")){
+            toggleInputDisabled()
+            placeholder = "You need to login first!"
+        }
+    }, [])
+    
+    function getGroupData(){
         React.useEffect(() => {
-            clientSocket.on('group feed', updateGroupGoals)
+            clientSocket.on('group feed', updateGroupData)
             return () => {
-                clientSocket.off('group feed', updateGroupGoals)
+                clientSocket.off('group feed', updateGroupData)
             }
         })
     }
 
-    function updateGroupGoals(data) {
+    function updateGroupData(data) {
         console.log("data: ", data)
         setGroupGoals(data.group_goals)
         setGroupInfo(data.group_info)
+        loadOldMessages(data.group_messages)
     }
-
-    getGroupGoals()
-
+    
+    getGroupData()
     return (
     <div className="root_container">
+
         <h2>Welcome to {groupName}'s group page!</h2>
         <div>This is our group's description: {groupInfo.group_description}</div>
         <div className="category_menu">
@@ -73,6 +119,11 @@ export default function GroupPage(){
         : <div>Error 404! This group doesn't exist</div>
         }
         <div>This is the sidebar text that should go as a right-sided column: {groupInfo.sidebar_text}</div>
+        <Chat 
+        handleNewUserMessage={handleNewUserMessage}
+        title={title}
+        senderPlaceHolder={placeholder}
+        />
     </div>
     )
 }

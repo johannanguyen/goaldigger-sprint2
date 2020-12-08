@@ -22,11 +22,6 @@ export default function GoogleButton() {
     //ChangePage();
   }
 
-  function ChangePage() {
-    location.href = '/HomePage';
-    // <button  onclick="ChangePage()">index.html</button>
-  }
-
   return (
     <div>
       <GoogleLogin

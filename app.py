@@ -60,16 +60,20 @@ def emit_newsfeed(channel, sid):
     print("running emit_newsfeed")
     server_socket.emit(channel, all_goals, sid)
 
-def emit_group_feed(channel, groupName, sid):
 
+
+
+def emit_group_feed(channel, groupName, sid):
+    
     groupObject = models.Groups.query.filter_by(name=groupName).first()
     if groupObject:
         group_info = {
             "group_description": groupObject.description,
             "sidebar_text": groupObject.sidebar_text,
             "name": groupObject.name,
+            "groupId": groupObject.id
         }
-
+        
         group_goals = [
             {
                 "description": db_goals.description,
@@ -86,10 +90,23 @@ def emit_group_feed(channel, groupName, sid):
             .filter(models.Goals.user_id == models.GroupsUsers.user_id)\
             .order_by(models.Goals.date).all()
         ]
-        print(group_goals)
-        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals} , sid)
+        
+        group_messages = [
+            {
+                "message": db_messages.text,
+                "userId": db_messages.user_id
+            }
+            for db_messages in\
+            models.Messages.query\
+            .filter_by(group_id = groupObject.id)\
+            .order_by(models.Messages.date).all()
+        ]
+        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals, "group_messages": group_messages} , sid)
     else:
         server_socket.emit(channel, None , sid)
+        
+        
+        
 
 def emit_category(channel, sid):
     category_goals = [
@@ -121,21 +138,17 @@ def push_new_user_to_db(email, username, image, is_signed_in, id_token):
 def send_group_info(data):
     print(data["groupName"])
     emit_group_feed(GROUP_PAGE_REQUEST, data["groupName"], request.sid)
+    
+    
+@server_socket.on("newUserMessage")
+def handle_message(data):
+    db.session.add(models.Messages(data['newUserMessage'], data['userId'], data['groupId']))
+    db.session.commit()
+    server_socket.emit("broadcast", {"newMessage": data['newUserMessage'], "groupName": "another group"}, broadcast=True, include_self=False)
+
 
 @server_socket.on('new google user')
 def on_new_google_user(data):
-    # Grabs all of the users CURRENTLY in the database
-    # Grabs the new google login email and checks to see if it is in the list of emails
-    #     If it is not, it will add that user to the database
-    # The email array will have to be repopulated (to account for newly added user)
-    # primary_id is determined by taking the index of where the email is located in the email array + 1
-    #     example:
-    #         all_emails = [johanna@gmail.com, joey@gmail.com]
-    #         johanna's primary id = 0 + 1 = 1
-    # Grabs all the goals and progress in the database relating to the primary id
-    # Emits username and image to client
-    # Emits the goals and progress
-
     user = db.session.query(models.Users).filter_by(email=data["email"]).first()
 
     if (not user):
@@ -204,8 +217,13 @@ def on_data(category):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    print(path)
+    if path[-4:] == ".png":
+        try:
+            return flask.send_from_directory('./', path)
+        except:
+            return "File not found", 404
     return render_template("index.html")
+    
 
 @app.errorhandler(404)
 def page_not_found(_e):
