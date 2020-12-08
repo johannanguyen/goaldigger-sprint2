@@ -191,6 +191,23 @@ def add_goal(data):
     db.session.add(models.Goals(user_id, category, description, progress, post_text))
     db.session.commit()
 
+@server_socket.on('add_group')
+def add_group(data):
+    print("Received new group info from the client: ", data["groupCategory"], data["groupName"], data["groupDescription"], data["groupSidebarText"])
+    groupCategory = data["groupCategory"]
+    groupName = data["groupName"]
+    groupDescription = data["groupDescription"]
+    groupSidebarText = data["groupSidebarText"]
+    server_socket.emit("add_group", data)
+    db.session.add(models.Groups(groupCategory, groupName, groupDescription, groupSidebarText))
+    db.session.commit()
+    
+def emit_group_names(channel):
+    all_group_names = [{
+        "groupName": group.name,
+    } for group in db.session.query(models.Groups).all()]
+    
+    server_socket.emit(channel, { "all_group_names" : all_group_names }, request.sid)
 
 def emit_google_info(channel):
     all_users = [{
