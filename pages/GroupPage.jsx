@@ -26,11 +26,16 @@ export default function GroupPage(){
     })
     
     function loadOldMessages(messages){
+        console.log(Cookies.get("user_id"))
         messages.map((data)=>{
-            if (data.userId == Cookies.get("user_id"))
+            if (data.userId == Cookies.get("user_id")){
                 addUserMessage(data.message)
-            else
-                addResponseMessage(data.message)
+            }
+            else{
+                let t = data.userId + ": " + data.message
+                addResponseMessage(t)
+            }
+                
         })
     }
     
