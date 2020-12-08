@@ -19,10 +19,12 @@ export default function GroupPage(props){
     var placeholder = "Type a message...";
     const history = useHistory();
 
-    //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
+  //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
     
-    
-    clientSocket.emit('group page', {"groupName": groupName});
+    useEffect(()=>{
+        clientSocket.emit('group page', {"groupName": groupName})
+    },[])
+
     
     function loadOldMessages(messages){
         console.log(Cookies.get("user_id"));
