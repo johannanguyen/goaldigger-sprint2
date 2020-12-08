@@ -55,7 +55,7 @@ def emit_newsfeed(channel, sid):
         for db_users, db_goals in\
         db.session.query(models.Users, models.Goals)\
         .filter(models.Users.id == models.Goals.user_id)\
-        .order_by(models.Goals.date).all()
+        .order_by(models.Goals.date.desc()).all()
     ]
     print("running emit_newsfeed")
     server_socket.emit(channel, all_goals, sid)

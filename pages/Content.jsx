@@ -16,7 +16,6 @@ export default function Content() {
   const [userGoals, setUserGoals] = useState([]);
   const categories = ["Home", "Work", "School", "Exercise", "Food", "Art", "Lifestyle", "Finance", "Misc", "Groups"];
 
-
   const updateGoal = (category) => {
     return (data) => (setGoals(
       (prev) => {
