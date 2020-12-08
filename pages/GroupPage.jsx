@@ -19,16 +19,6 @@ export default function GroupPage(){
         console.log(path, url)
         clientSocket.emit('group page', {"groupName": groupName})
     })
-    // group data fields:
-    // {
-    //     id
-    //     category
-    //     description
-    //     name
-    //     sidebar_text
-    //     dateCreated
-    //     newsFeed
-    // }
 
     function getGroupGoals(){
         React.useEffect(() => {
