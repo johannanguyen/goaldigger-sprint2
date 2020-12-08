@@ -23,20 +23,31 @@ function Category(props) {
    useEffect(() => {
       clientSocket.on(title, setCategoryGoals);
         }, [title]);
+        
+      
+  const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+  },
+}));
 
-
+  const classes = useStyles();
 
   return (
     <div className="root_container">
       <GoogleButton />
-      <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {history.push('/GoalDigger')}}
-            style={{ backgroundColor: '0e99b6' }}
-          >
-            GoalDigger
-          </Button>
+      
       <div className="category_menu">
         <br />
         {categories.map((category) => {
@@ -49,12 +60,21 @@ function Category(props) {
                 />
             );
         })}
+        
+        <Button
+              variant="contained"
+              color="primary"
+              onClick={() => {history.push('/GoalDigger')}}
+              style={{ backgroundColor: '0e99b6' }}
+            >
+              GoalDigger
+        </Button>
       </div>
 
       <div className="header_menu">
         <h2>{ title }</h2>
         <Button component={Link} to="/profile">
-          <Avatar src={user.image} />
+          <Avatar src={user.image} className={classes.large}/>
         </Button>
       </div>
 
@@ -62,7 +82,7 @@ function Category(props) {
         <ScrollToBottom>
         { categoryGoals.map((data, index) => (
           <div>
-            <Avatar src={data.img_url} />
+            <Avatar src={data.img_url} className={classes.large}/>
 
             {data.username}
             {' '}
