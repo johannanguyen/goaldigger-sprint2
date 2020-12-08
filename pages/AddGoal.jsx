@@ -9,18 +9,16 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { clientSocket } from '../scripts/Socket';
 import { GoogleOut } from '../scripts/GoogleLogout';
+import { useHistory } from "react-router-dom";
 
-export default function AddGoal() {
+export default function AddGoal(props) {
+  const { user } = props;
   const [users, setUsers] = React.useState([]);
   const [category, setCategory] = useState('');
   const [goal, setGoal] = useState('');
   const [progress, setProgress] = useState('');
   const [postText, setPostText] = useState('');
 
-
-////////////////////////////////////////////////////////
-///               PUT A SOCKET.OFF!!                 ///
-////////////////////////////////////////////////////////
   function getGoogleUserInfo() {
     React.useEffect(() => {
       clientSocket.on('google info received', (data) => {
@@ -63,12 +61,13 @@ export default function AddGoal() {
 
   const clickHandler = () => {
     clientSocket.emit('add_goal', {
-      category, goal, progress, postText, users,
+      category, goal, progress, postText, user,
     });
     setGoal('');
     setPostText('');
-    console.log('sent added goal to server: ', category, goal, progress, postText, users);
+    console.log('sent added goal to server: ', category, goal, progress, postText, user);
   };
+  const history = useHistory();
 
   return (
     <div className="root_container">
@@ -89,9 +88,9 @@ export default function AddGoal() {
       <div className="content_container">
 
         <h2>Add Goal</h2>
-        <img src={users.image} />
+        <img src={user.image} />
         <br />
-        <b>{users.username}</b>
+        <b>{user.username}</b>
         <br />
 
         <FormControl className={useStyles().formControl}>
@@ -138,6 +137,15 @@ export default function AddGoal() {
             style={{ backgroundColor: '0e99b6' }}
           >
             Add!
+          </Button>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {history.push('/home')}}
+            style={{ backgroundColor: '0e99b6' }}
+          >
+            Home
           </Button>
         </FormControl>
       </div>

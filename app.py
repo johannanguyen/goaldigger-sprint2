@@ -37,7 +37,7 @@ db.session.commit()
 
 
 
-EMIT_EXERCISE_NEWSFEED_CHANNEL = "homepage"
+EMIT_NEWSFEED_CHANNEL = "Home"
 GOOGLE_INFO_RECEIVED_CHANNEL = "google info received"
 GROUP_PAGE_REQUEST = "group feed"
 
@@ -61,16 +61,15 @@ def emit_newsfeed(channel, sid):
     server_socket.emit(channel, all_goals, sid)
 
 def emit_group_feed(channel, groupName, sid):
-    
+
     groupObject = models.Groups.query.filter_by(name=groupName).first()
     if groupObject:
         group_info = {
             "group_description": groupObject.description,
             "sidebar_text": groupObject.sidebar_text,
             "name": groupObject.name,
-            "groupId": groupObject.id
         }
-        
+
         group_goals = [
             {
                 "description": db_goals.description,
@@ -87,18 +86,8 @@ def emit_group_feed(channel, groupName, sid):
             .filter(models.Goals.user_id == models.GroupsUsers.user_id)\
             .order_by(models.Goals.date).all()
         ]
-        
-        group_messages = [
-            {
-                "message": db_messages.text,
-                "userId": db_messages.user_id
-            }
-            for db_messages in\
-            models.Messages.query\
-            .filter_by(group_id = groupObject.id)\
-            .order_by(models.Messages.date).all()
-        ]
-        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals, "group_messages": group_messages} , sid)
+        print(group_goals)
+        server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals} , sid)
     else:
         server_socket.emit(channel, None , sid)
 
@@ -119,7 +108,7 @@ def emit_category(channel, sid):
         .filter(models.Goals.category == channel)\
         .order_by(models.Goals.date).all()
     ]
-    
+
     server_socket.emit(channel, category_goals, sid)
 
 
@@ -133,13 +122,7 @@ def send_group_info(data):
     print(data["groupName"])
     emit_group_feed(GROUP_PAGE_REQUEST, data["groupName"], request.sid)
 
-@server_socket.on("newUserMessage")
-def handle_message(data):
-    db.session.add(models.Messages(data['newUserMessage'], data['userId'], data['groupId']))
-    db.session.commit()
-    server_socket.emit("broadcast", {"newMessage": data['newUserMessage'], "groupName": "another group"}, broadcast=True, include_self=False)
-
-@server_socket.on('google login')
+@server_socket.on('new google user')
 def on_new_google_user(data):
     # Grabs all of the users CURRENTLY in the database
     # Grabs the new google login email and checks to see if it is in the list of emails
@@ -152,7 +135,7 @@ def on_new_google_user(data):
     # Grabs all the goals and progress in the database relating to the primary id
     # Emits username and image to client
     # Emits the goals and progress
-    
+
     user = db.session.query(models.Users).filter_by(email=data["email"]).first()
 
     if (not user):
@@ -163,7 +146,7 @@ def on_new_google_user(data):
     personal_profile = {
         "username": data["username"],
         "image": data["image"],
-        "user_id": user.id
+        "primary_id": user.id
     }
 
     personal_goals = [
@@ -173,6 +156,8 @@ def on_new_google_user(data):
         }
         for personal_goal in models.Goals.query.filter(models.Goals.user_id == user.id).all()
     ]
+
+
     server_socket.emit("google info received", personal_profile, request.sid)
     server_socket.emit("user goals", personal_goals, request.sid)
 
@@ -180,17 +165,18 @@ def on_new_google_user(data):
 
 @server_socket.on('add_goal')
 def add_goal(data):
+    print("TEST DATA: ", data)
+
     category = data["category"]
-    user_id = data["users"]["primary_id"]
+    user_id = data["user"]["primary_id"]
     description = data["goal"]
     progress = data["progress"]
     post_text = data["postText"]
-
+    
     server_socket.emit("add_goal", data, request.sid)
 
     db.session.add(models.Goals(user_id, category, description, progress, post_text))
     db.session.commit()
-
 
 
 def emit_google_info(channel):
@@ -206,28 +192,23 @@ def emit_google_info(channel):
 
 
 
-@server_socket.on("connect")
-def on_connect():
-    emit_category("Work", request.sid)
-    emit_category("School", request.sid)
-    emit_category("Exercise", request.sid)
-    emit_category("Food", request.sid)
-    emit_category("Art", request.sid)
-    emit_category("Lifestyle", request.sid)
-    emit_category("Finance", request.sid)
-    emit_category("Misc", request.sid)
-    emit_newsfeed(EMIT_EXERCISE_NEWSFEED_CHANNEL, request.sid)
-    #emit_google_info(GOOGLE_INFO_RECEIVED_CHANNEL)
+@server_socket.on("get_data")
+def on_data(category):
+    if category == "Home":
+        emit_newsfeed(EMIT_NEWSFEED_CHANNEL, request.sid)
+    else:
+        emit_category(category, request.sid)
+    
 
-        
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    if path[-4:] == ".png":
-        try:
-            return flask.send_from_directory('./', path)
-        except:
-            return "File not found", 404
+    print(path)
+    return render_template("index.html")
+
+@app.errorhandler(404)
+def page_not_found(_e):
     return render_template("index.html")
 
 
