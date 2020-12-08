@@ -51,14 +51,15 @@ function Category(props) {
         })}
       </div>
 
+      
+
+      <div className="homepage_container">
       <div className="header_menu">
         <h2>{ title }</h2>
         <Button component={Link} to="/profile">
           <Avatar src={user.image} />
         </Button>
       </div>
-
-      <div className="homepage_container">
         <ScrollToBottom>
         { categoryGoals.map((data, index) => (
           <div>

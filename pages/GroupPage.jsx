@@ -22,8 +22,10 @@ export default function GroupPage(props){
 
     //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
     
+    useEffect(() => {
+      clientSocket.emit('group page', {"groupName": groupName})
+        }, []);
     
-    clientSocket.emit('group page', {"groupName": groupName})
     
     function loadOldMessages(messages){
         console.log(Cookies.get("user_id"))
