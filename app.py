@@ -68,7 +68,6 @@ def emit_newsfeed(channel, sid):
 
 
 def emit_group_feed(channel, groupName, sid):
-    
     groupObject = models.Groups.query.filter_by(name=groupName).first()
     if groupObject:
         group_info = {
@@ -77,7 +76,7 @@ def emit_group_feed(channel, groupName, sid):
             "name": groupObject.name,
             "groupId": groupObject.id
         }
-        
+        print("in group feed",group_info["name"])
         group_goals = [
             {
                 "description": db_goals.description,
@@ -111,9 +110,7 @@ def emit_group_feed(channel, groupName, sid):
         server_socket.emit(channel, {"group_info": group_info, "group_goals": group_goals, "group_messages": group_messages} , sid)
     else:
         server_socket.emit(channel, None , sid)
-        
-        
-        
+
 
 def emit_category(channel, sid):
     category_goals = [
@@ -139,9 +136,11 @@ def emit_category(channel, sid):
     server_socket.emit(channel, category_goals, sid)
 
 
+
 def push_new_user_to_db(email, username, image, is_signed_in, id_token):
     db.session.add(models.Users(email, username, image, is_signed_in, id_token));
     db.session.commit();
+
 
 
 @server_socket.on('group page')
@@ -179,8 +178,38 @@ def on_new_google_user(data):
         }
         for personal_goal in models.Goals.query.filter(models.Goals.user_id == user.id).all()
     ]
+    ########################################
+    ######   EMIT USER'S GROUPS      #######
+    ########################################
+    user_groups_names=[
+        db_groups.name
+        for db_groups, db_groups_users in\
+        db.session.query(models.Groups, models.GroupsUsers)\
+        .filter(models.GroupsUsers.user_id == user.id)\
+        .filter(models.GroupsUsers.group_id == models.Groups.id)\
+        .order_by(models.Groups.name).all()
+    ]
+    print("Groups the user belongs to",user_groups_names)
+    user_groups_id= [ row.group_id for row in models.GroupsUsers.query.filter(models.GroupsUsers.user_id == user.id).all() ]
 
-
+    user_groups_goals = [
+        {
+            "user_id": db_user_id,
+            "username": db_users.name,
+            "img_url": db_users.img_url,
+            "category": db_goals.category,
+            "description": db_goals.description,
+            "progress": db_goals.progress,
+            "post_text": db_goals.post_text
+        }
+        for db_user_id, db_goals, db_users in\
+        db.session.query(models.GroupsUsers.user_id.distinct(), models.Goals, models.Users)\
+        .filter(models.GroupsUsers.group_id.in_(user_groups_id))\
+        .join(models.Goals, models.GroupsUsers.user_id == models.Goals.user_id)\
+        .join(models.Users, models.Users.id == models.GroupsUsers.user_id)\
+        .order_by(models.Goals.date.desc()).all()
+    ]
+    server_socket.emit("user groups", {"user_groups_names": user_groups_names, "user_groups_goals": user_groups_goals}, request.sid)
     server_socket.emit("google info received", personal_profile, request.sid)
     server_socket.emit("user goals", personal_goals, request.sid)
 
@@ -217,6 +246,7 @@ def add_group(data):
     db.session.add(models.Groups(groupCategory, groupName, groupDescription, groupSidebarText))
     db.session.commit()
     
+
 def emit_group_names(channel):
     all_group_names = [{
         "groupName": group.name,
@@ -291,16 +321,6 @@ def on_new_thumb(data):
     z=y+1
     queue.thumbs = z
     db.session.commit();
-    
-
-
-
-
-
-
-
-
-
 
 
 def emit_google_info(channel):
@@ -328,9 +348,13 @@ def on_data(category):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    if path[-4:] == ".png":
+    return render_template("index.html")
+
+@app.route('/groups/<path:filename>')
+def send_img(filename):
+    if filename[-4:] == ".png":
         try:
-            return flask.send_from_directory('./', path)
+            return flask.send_from_directory('./', filename)
         except:
             return "File not found", 404
     return render_template("index.html")
