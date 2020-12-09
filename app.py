@@ -50,7 +50,10 @@ def emit_newsfeed(channel, sid):
             "category": db_goals.category,
             "description": db_goals.description,
             "progress": db_goals.progress,
-            "post_text": db_goals.post_text
+            "post_text": db_goals.post_text,
+            "hearts": db_goals.hearts,
+            "smileys": db_goals.smileys,
+            "thumbs": db_goals.thumbs
 
         }
         for db_users, db_goals in\
@@ -83,6 +86,9 @@ def emit_group_feed(channel, groupName, sid):
                 "img_url": db_users.img_url,
                 "category": db_goals.category,
                 "post_text": db_goals.post_text,
+                "hearts": db_goals.hearts,
+                "smileys": db_goals.smileys,
+                "thumbs": db_goals.thumbs
             }
             for db_users, db_goals, db_groups_users in\
             db.session.query(models.Users, models.Goals, models.GroupsUsers)\
@@ -118,7 +124,10 @@ def emit_category(channel, sid):
             "category": db_goals.category,
             "description": db_goals.description,
             "progress": db_goals.progress,
-            "post_text": db_goals.post_text
+            "post_text": db_goals.post_text,
+            "hearts": db_goals.hearts,
+            "smileys": db_goals.smileys,
+            "thumbs": db_goals.thumbs
         }
         for db_users, db_goals in\
         db.session.query(models.Users, models.Goals)\
@@ -186,7 +195,6 @@ def add_goal(data):
     description = data["goal"]
     progress = "Incomplete" #data["progress"]
     post_text = data["postText"]
-    
     
     hearts = "0"
     smileys = "0"
