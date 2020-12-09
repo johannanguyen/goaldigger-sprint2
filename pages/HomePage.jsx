@@ -48,6 +48,32 @@ export default function HomePage() {
   getGoogleUserInfo();
   getGoals();
   // do div box styling for the week
+  
+  function Heart(task) {
+    clientSocket.emit('new hearts input', {
+      heart: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+  
+  function Smiley(task) {
+    clientSocket.emit('new smileys input', {
+      smiley: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+  
+  function Thumb(task) {
+    clientSocket.emit('new thumbs input', {
+      thumb: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+  
+  
 
   return (
     <div className="root_container">
@@ -107,6 +133,23 @@ export default function HomePage() {
             "
             {data.post_text}
             "
+            {' '}
+            {data.hearts}
+            {' '}
+            {data.smileys}
+            {' '}
+            {data.thumbs}
+            {' '}
+            
+            <button type="button" onClick={() => Heart(data.description)}>
+                &#10084;&#65039;
+              </button>
+              <button type="button" onClick={() => Smiley(data.description)}>
+                &#128512;
+              </button>
+              <button type="button" onClick={() => Thumb(data.description)}>
+                &#128077;
+              </button>          
           </div>
         )) }
         </ScrollToBottom>

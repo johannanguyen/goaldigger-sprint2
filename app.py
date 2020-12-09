@@ -264,10 +264,7 @@ def on_new_complete(data):
     queue.iscomplete="Complete"
     db.session.commit();
     
-    #emit_all_thumbs(THUMBS_RECEIVED_CHANNEL)
-    #emit_all_smileys(SMILEYS_RECEIVED_CHANNEL)
-    #emit_all_hearts(HEARTS_RECEIVED_CHANNEL)
-    #emit_all_boolins(BOOLINS_RECEIVED_CHANNEL)
+    emit_newsfeed(EMIT_NEWSFEED_CHANNEL, request.sid)
     
     
 @server_socket.on('new delete input')
@@ -280,6 +277,7 @@ def on_new_delete(data):
     db.session.delete(queue);
     db.session.commit();
     
+    emit_newsfeed(EMIT_NEWSFEED_CHANNEL, request.sid)
    
   
 @server_socket.on('new hearts input')
@@ -295,6 +293,8 @@ def on_new_heart(data):
     queue.hearts = z
     db.session.commit();
     
+    emit_newsfeed(EMIT_NEWSFEED_CHANNEL, request.sid)
+    
 
 @server_socket.on('new smileys input')
 def on_new_smiley(data):
@@ -309,6 +309,8 @@ def on_new_smiley(data):
     queue.smileys = z
     db.session.commit();
     
+    emit_newsfeed(EMIT_NEWSFEED_CHANNEL, request.sid)
+    
 @server_socket.on('new thumbs input')
 def on_new_thumb(data):
     ''' gets user input '''
@@ -322,6 +324,7 @@ def on_new_thumb(data):
     queue.thumbs = z
     db.session.commit();
 
+    emit_newsfeed(EMIT_NEWSFEED_CHANNEL, request.sid)
 
 def emit_google_info(channel):
     all_users = [{
