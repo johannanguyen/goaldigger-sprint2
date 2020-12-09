@@ -33,6 +33,7 @@ export default function GoogleButton() {
   function logout() {
     Cookies.remove("isLoggedIn")
     Cookies.remove("user")
+    Cookies.remove("userObj")
     history.push('/');
   }
 

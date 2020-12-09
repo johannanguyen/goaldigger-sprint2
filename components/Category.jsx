@@ -8,6 +8,7 @@ import { clientSocket } from '../scripts/Socket';
 import GoogleButton from '../scripts/GoogleButton'
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie"
 
 function Category(props) {
   const { title, user, goals, categories } = props;
@@ -16,7 +17,7 @@ function Category(props) {
   useEffect(() => {
     console.log(title);
     console.log(history);
-    
+    console.log("cookies user id", Cookies.get("user_id"))
     clientSocket.emit('get_data', title);
       }, [title]);
 
@@ -64,10 +65,10 @@ function Category(props) {
         <Button
               variant="contained"
               color="primary"
-              onClick={() => {history.push('/GoalDigger')}}
+              onClick={() => {history.push('/groups')}}
               style={{ backgroundColor: '0e99b6' }}
             >
-              GoalDigger
+              Groups
         </Button>
       </div>
 

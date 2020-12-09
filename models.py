@@ -53,7 +53,7 @@ class Users(db.Model):
     google_id = db.Column(db.String(3000))
     # fb_id = db.Column(db.String())
     # bio = db.Column(db.String())
-    
+
     def __init__(self, email, name, img_url, signed_in, google_id):
         self.name = name
         self.email = email
