@@ -12,26 +12,15 @@ import GoogleButton from '../scripts/GoogleButton'
 import './styles.css';
 
 export default function GroupPage(props){
-<<<<<<< HEAD
     const {path, url} = useRouteMatch()
     let { groupName } = useParams()
     const [groupGoals, setGroupGoals] = useState([]);
     const [groupInfo, setGroupInfo] = useState({});
     const title = "Welcome to " + groupName + "'s chatroom!"
     const { placeholder, setPlaceholder } = useState("Type a message...")
-=======
-    const { user } = props;
-    const {path, url} = useRouteMatch();
-    let { groupName } = useParams();
-    const [groupGoals, setGroupGoals] = useState([]);
-    const [groupInfo, setGroupInfo] = useState({});
-    const title = "Welcome to " + groupName + "'s chatroom!";
-    var placeholder = "Type a message...";
->>>>>>> master
     const history = useHistory();
     const { hasLoaded, setLoaded} = useState(false)
 
-<<<<<<< HEAD
     useEffect(()=>{
         clientSocket.emit('group page', {"groupName": groupName})
     },[])
@@ -51,27 +40,6 @@ export default function GroupPage(props){
             })
             setLoaded(true)
         }
-=======
-  //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
-    
-    useEffect(()=>{
-        clientSocket.emit('group page', {"groupName": groupName})
-    },[])
-
-    
-    function loadOldMessages(messages){
-        console.log(Cookies.get("user_id"));
-        messages.map((data)=>{
-            if (data.userId == Cookies.get("user_id")){
-                addUserMessage(data.message);
-            }
-            else{
-                let t = data.userId + ": " + data.message;
-                addResponseMessage(t);
-            }
-                
-        });
->>>>>>> master
     }
 
     function handleNewUserMessage(newUserMessage){
@@ -81,12 +49,7 @@ export default function GroupPage(props){
             "groupId": groupInfo.groupId,
             "newUserMessage": newUserMessage,
             "userId": Cookies.get("user_id")
-<<<<<<< HEAD
         })
-=======
-        });
-        
->>>>>>> master
     }
     
     React.useEffect(()=>{
@@ -103,13 +66,8 @@ export default function GroupPage(props){
 
     React.useEffect(() => {
         if(!Cookies.get("isLoggedIn")){
-<<<<<<< HEAD
             toggleInputDisabled()
             setPlaceholder("You need to login first!")
-=======
-            toggleInputDisabled();
-            placeholder = "You need to login first!";
->>>>>>> master
         }
     }, []);
     
@@ -129,12 +87,7 @@ export default function GroupPage(props){
         loadOldMessages(data.group_messages);
     }
     
-<<<<<<< HEAD
-    getGroupData()
-    
-=======
     getGroupData();
->>>>>>> master
     return (
     <div className="root_container">
         <div className="button_container">
@@ -156,9 +109,6 @@ export default function GroupPage(props){
         </Button>
         <h2>Welcome to {groupName}'s group page!</h2>
         <div>This is our group's description: {groupInfo.group_description}</div>
-<<<<<<< HEAD
-        <div>This is the sidebar text that should go as a right-sided column: {groupInfo.sidebar_text}</div>
-=======
         <div className="category_menu">
             <CategoryButton category="group1" />
             <CategoryButton category="group2" />
@@ -174,7 +124,6 @@ export default function GroupPage(props){
           </Button>
         </div>
         
->>>>>>> master
         {groupGoals?
         <div className="homepage_container">
             

@@ -58,7 +58,6 @@ export default function Content() {
     };
   });
   
-<<<<<<< HEAD
   useEffect(()=>{
     clientSocket.on('user groups', (data)=>{
       console.log("users groups", data)
@@ -68,7 +67,6 @@ export default function Content() {
   })
   
   
-=======
   
   
   /*
@@ -113,7 +111,6 @@ export default function Content() {
     console.log(task);
   };
   */
->>>>>>> master
   
 
   return (
