@@ -43,7 +43,8 @@ export default function GoogleButton() {
     {Cookies.get("isLoggedIn")?
     <div>
       <GoogleLogout 
-        clientId="1054986958378-occ0i46u818t41nptv82m2ompremrnkh.apps.googleusercontent.com"
+        // clientId="1054986958378-occ0i46u818t41nptv82m2ompremrnkh.apps.googleusercontent.com"
+        clientId="791115456005-sqrq5ha01c9bmcbe7c7u6lco4p9l4r1b.apps.googleusercontent.com"
         buttonText="Logout"
         onLogoutSuccess={logout}>
       </GoogleLogout>
@@ -51,7 +52,8 @@ export default function GoogleButton() {
     :<div>
     <GoogleLogin
         // clientId="1062054290390-k78ra3cikp1topp72a1s8bo02m965adi.apps.googleusercontent.com"
-        clientId="1054986958378-occ0i46u818t41nptv82m2ompremrnkh.apps.googleusercontent.com"
+        // clientId="1054986958378-occ0i46u818t41nptv82m2ompremrnkh.apps.googleusercontent.com"
+        clientId="791115456005-sqrq5ha01c9bmcbe7c7u6lco4p9l4r1b.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={get_info}
         isSignedIn={Cookies.get("isSignedIn")}
