@@ -10,11 +10,11 @@ export default function UserProfile(props) {
   const { goals, user } = props;
   const history = useHistory()
   
-  const [boolins, setBoolins] = React.useState([]);
+  //const [boolins, setBoolins] = React.useState([]);
   
-  const [hearts, setHearts] = React.useState([]);
-  const [smileys, setSmileys] = React.useState([]);
-  const [thumbs, setThumbs] = React.useState([]);
+  //const [hearts, setHearts] = React.useState([]);
+  //const [smileys, setSmileys] = React.useState([]);
+  //const [thumbs, setThumbs] = React.useState([]);
   
   
   function makeComplete(task) {

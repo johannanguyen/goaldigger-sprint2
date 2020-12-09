@@ -46,7 +46,7 @@ export default function Content() {
   
   
   
-  
+  /*
    function makeComplete(task) {
     //send index thorugh socket run alter table querary on backend where id = index
     clientSocket.emit('new complete input', {
@@ -87,7 +87,7 @@ export default function Content() {
     event.preventDefault();
     console.log(task);
   };
-  
+  */
   
 
   return (
