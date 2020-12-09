@@ -50,7 +50,11 @@ def emit_newsfeed(channel, sid):
             "category": db_goals.category,
             "description": db_goals.description,
             "progress": db_goals.progress,
-            "post_text": db_goals.post_text
+            "post_text": db_goals.post_text,
+            "hearts": db_goals.hearts,
+            "smileys": db_goals.smileys,
+            "thumbs": db_goals.thumbs
+
         }
         for db_users, db_goals in\
         db.session.query(models.Users, models.Goals)\
@@ -82,6 +86,9 @@ def emit_group_feed(channel, groupName, sid):
                 "img_url": db_users.img_url,
                 "category": db_goals.category,
                 "post_text": db_goals.post_text,
+                "hearts": db_goals.hearts,
+                "smileys": db_goals.smileys,
+                "thumbs": db_goals.thumbs
             }
             for db_users, db_goals, db_groups_users in\
             db.session.query(models.Users, models.Goals, models.GroupsUsers)\
@@ -117,7 +124,10 @@ def emit_category(channel, sid):
             "category": db_goals.category,
             "description": db_goals.description,
             "progress": db_goals.progress,
-            "post_text": db_goals.post_text
+            "post_text": db_goals.post_text,
+            "hearts": db_goals.hearts,
+            "smileys": db_goals.smileys,
+            "thumbs": db_goals.thumbs
         }
         for db_users, db_goals in\
         db.session.query(models.Users, models.Goals)\
@@ -183,12 +193,17 @@ def add_goal(data):
     category = data["category"]
     user_id = data["user"]["primary_id"]
     description = data["goal"]
-    progress = data["progress"]
+    progress = "Incomplete" #data["progress"]
     post_text = data["postText"]
     
-    server_socket.emit("add_goal", data, request.sid)
+    hearts = "0"
+    smileys = "0"
+    thumbs = "0"
+    
+    
+    #server_socket.emit("add_goal", data, request.sid)
 
-    db.session.add(models.Goals(user_id, category, description, progress, post_text))
+    db.session.add(models.Goals(user_id, category, description, progress, post_text, hearts, smileys, thumbs))
     db.session.commit()
 
 @server_socket.on('add_group')
@@ -208,6 +223,85 @@ def emit_group_names(channel):
     } for group in db.session.query(models.Groups).all()]
     
     server_socket.emit(channel, { "all_group_names" : all_group_names }, request.sid)
+
+@server_socket.on('new complete input')
+def on_new_complete(data):
+    ''' gets user input '''
+    print("Got an event for completion with data:", data)
+    
+    completion = data["completion"]
+    queue = db.session.query(models.Goals).filter(models.Goals.description==completion).first();
+    queue.iscomplete="Complete"
+    db.session.commit();
+    
+    #emit_all_thumbs(THUMBS_RECEIVED_CHANNEL)
+    #emit_all_smileys(SMILEYS_RECEIVED_CHANNEL)
+    #emit_all_hearts(HEARTS_RECEIVED_CHANNEL)
+    #emit_all_boolins(BOOLINS_RECEIVED_CHANNEL)
+    
+    
+@server_socket.on('new delete input')
+def on_new_delete(data):
+    ''' gets user input '''
+    print("Got an event for deletion with data:", data)
+    
+    deletion = data["deletion"]
+    queue = db.session.query(models.Goals).filter(models.Goals.description==deletion).first();
+    db.session.delete(queue);
+    db.session.commit();
+    
+   
+  
+@server_socket.on('new hearts input')
+def on_new_heart(data):
+    ''' gets user input '''
+    print("Got an event for heart with data:", data)
+    
+    heart = data["heart"]
+    queue = db.session.query(models.Goals).filter(models.Goals.description==heart).first();
+    x = queue.hearts
+    y=int(x)
+    z=y+1
+    queue.hearts = z
+    db.session.commit();
+    
+
+@server_socket.on('new smileys input')
+def on_new_smiley(data):
+    ''' gets user input '''
+    print("Got an event for smiley with data:", data)
+    
+    smiley = data["smiley"]
+    queue = db.session.query(models.Goals).filter(models.Goals.description==smiley).first();
+    x = queue.smileys
+    y=int(x)
+    z=y+1
+    queue.smileys = z
+    db.session.commit();
+    
+@server_socket.on('new thumbs input')
+def on_new_thumb(data):
+    ''' gets user input '''
+    print("Got an event for thumb with data:", data)
+    
+    thumb = data["thumb"]
+    queue = db.session.query(models.Goals).filter(models.Goals.description==thumb).first();
+    x = queue.thumbs
+    y=int(x)
+    z=y+1
+    queue.thumbs = z
+    db.session.commit();
+    
+
+
+
+
+
+
+
+
+
+
 
 def emit_google_info(channel):
     all_users = [{
