@@ -51,7 +51,7 @@ def emit_newsfeed(channel, sid):
             "description": db_goals.description,
             "progress": db_goals.progress,
             "post_text": db_goals.post_text
-            "":
+
         }
         for db_users, db_goals in\
         db.session.query(models.Users, models.Goals)\
@@ -119,9 +119,6 @@ def emit_category(channel, sid):
             "description": db_goals.description,
             "progress": db_goals.progress,
             "post_text": db_goals.post_text
-            "hearts": db_heart.hearts
-            "smileys": db_smiley.smileys
-            "thumbs": db_thumb.thumbs
         }
         for db_users, db_goals in\
         db.session.query(models.Users, models.Goals)\
@@ -199,6 +196,23 @@ def add_goal(data):
     db.session.add(models.Goals(user_id, category, description, progress, post_text, hearts, smileys, thumbs))
     db.session.commit()
 
+@server_socket.on('add_group')
+def add_group(data):
+    print("Received new group info from the client: ", data["groupCategory"], data["groupName"], data["groupDescription"], data["groupSidebarText"])
+    groupCategory = data["groupCategory"]
+    groupName = data["groupName"]
+    groupDescription = data["groupDescription"]
+    groupSidebarText = data["groupSidebarText"]
+    server_socket.emit("add_group", data)
+    db.session.add(models.Groups(groupCategory, groupName, groupDescription, groupSidebarText))
+    db.session.commit()
+    
+def emit_group_names(channel):
+    all_group_names = [{
+        "groupName": group.name,
+    } for group in db.session.query(models.Groups).all()]
+    
+    server_socket.emit(channel, { "all_group_names" : all_group_names }, request.sid)
 
 @server_socket.on('new complete input')
 def on_new_complete(data):

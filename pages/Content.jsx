@@ -5,6 +5,7 @@ import LandingPage from './LandingPage';
 import HomePage from './HomePage';
 import UserProfile from './UserProfile';
 import AddGoal from './AddGoal';
+import AddGroup from './AddGroup';
 import Category from '../components/Category';
 import { clientSocket } from '../scripts/Socket';
 import GroupPage from './GroupPage';
@@ -48,7 +49,7 @@ export default function Content() {
   
    function makeComplete(task) {
     //send index thorugh socket run alter table querary on backend where id = index
-    Socket.emit('new complete input', {
+    clientSocket.emit('new complete input', {
       completion: task, // sends pName to socket
     });
     event.preventDefault();
@@ -56,7 +57,7 @@ export default function Content() {
   };
 
   function makeDelete(task) {
-    Socket.emit('new delete input', {
+    clientSocket.emit('new delete input', {
       deletion: task, // sends pName to socket
     });
     event.preventDefault();
@@ -64,7 +65,7 @@ export default function Content() {
   };
   
   function Heart(task) {
-    Socket.emit('new hearts input', {
+    clientSocket.emit('new hearts input', {
       heart: task, // sends pName to socket
     });
     event.preventDefault();
@@ -72,7 +73,7 @@ export default function Content() {
   };
   
   function Smiley(task) {
-    Socket.emit('new smileys input', {
+    clientSocket.emit('new smileys input', {
       smiley: task, // sends pName to socket
     });
     event.preventDefault();
@@ -80,7 +81,7 @@ export default function Content() {
   };
   
   function Thumb(task) {
-    Socket.emit('new thumbs input', {
+    clientSocket.emit('new thumbs input', {
       thumb: task, // sends pName to socket
     });
     event.preventDefault();
@@ -94,6 +95,7 @@ export default function Content() {
       <Switch>
         <Route exact path="/"><LandingPage /></Route>
         <Route exact path="/add"><AddGoal user={user}/></Route>
+        <Route exact path="/addgroup"><AddGroup /></Route>
         <Route exact path="/profile"><UserProfile goals={userGoals} user={user}/></Route>
         {categories.map((category) => {
           return (<Route exact path={`/${category.toLowerCase()}`}>
