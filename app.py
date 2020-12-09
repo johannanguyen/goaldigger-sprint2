@@ -261,7 +261,7 @@ def on_new_complete(data):
     
     completion = data["completion"]
     queue = db.session.query(models.Goals).filter(models.Goals.description==completion).first();
-    queue.iscomplete="Complete"
+    queue.progress="Complete"
     db.session.commit();
     
     emit_newsfeed(EMIT_NEWSFEED_CHANNEL, request.sid)
