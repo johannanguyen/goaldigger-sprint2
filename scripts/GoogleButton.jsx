@@ -44,7 +44,6 @@ export default function GoogleButton() {
     <div>
       <GoogleLogout 
         clientId="1054986958378-occ0i46u818t41nptv82m2ompremrnkh.apps.googleusercontent.com"
-        
         buttonText="Logout"
         onLogoutSuccess={logout}>
       </GoogleLogout>

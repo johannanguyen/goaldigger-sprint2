@@ -108,6 +108,16 @@ export default function GroupPage(props){
         Groups
         </Button>
         <h2>Welcome to {groupName}'s group page!</h2>
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={()=>{
+                clientSocket.emit("join", {"groupId": groupInfo.groupId, "userId": Cookies.get("user_id")}) 
+                console.log("joined groupid: ", groupInfo.groupId, Cookies.get("user_id"))
+            }}
+            style={{ backgroundColor: '0e99b6' }}>
+        Join
+        </Button>
         <div>This is our group's description: {groupInfo.group_description}</div>
         
         

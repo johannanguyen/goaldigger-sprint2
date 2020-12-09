@@ -66,7 +66,12 @@ function Category(props) {
               variant="contained"
               color="primary"
               onClick={() => {history.push('/groups')}}
-              style={{ backgroundColor: '0e99b6' }}
+              style={{
+                backgroundColor: '0e99b6',
+                minHeight: '53px',
+                minWidth: '170px',
+                border: '1px solid white',
+             }}
             >
               Groups
         </Button>

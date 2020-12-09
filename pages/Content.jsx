@@ -64,7 +64,7 @@ export default function Content() {
       setUserGroupsNames(data.user_groups_names)
       setUGroupsGoals(data.user_groups_goals)
     })
-  })
+  },[])
   
   
   

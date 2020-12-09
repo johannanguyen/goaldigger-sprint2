@@ -8,17 +8,35 @@ import Cookies from 'js-cookie'
 import { useHistory } from "react-router-dom";
 import GoogleButton from '../scripts/GoogleButton'
 import './styles.css';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
 
 export default function GroupHome(props){
     const {gNames, gGoals} = props
     const history = useHistory()
+    const [ group, setGroup ] = useState("")
+    const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 100,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+    useEffect(()=>{
+        
+    },[])
+  
+    const changeHandler_group = (event) => {
+        setGroup(event.target.value);
+    };
     
-    
-    
-    
-    
-
-    
+    const clickHandler = () => {
+        history.push(`/groups/${group}`)
+  };
+  console.log("Cookies: ",Cookies.get())
     
     
     return (
@@ -27,6 +45,27 @@ export default function GroupHome(props){
             <GoogleButton />
         </div>
         <h2>This is your groups homepage!</h2>
+        <div className="groupRedirect">
+        <FormControl >
+        <TextField
+            id="outlined-basic"
+            label="Go to a group's page"
+            onChange={changeHandler_group}
+          />
+          <br/>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={clickHandler}
+            style={{
+                backgroundColor: '0e99b6',
+                minHeight: '53px',
+                minWidth: '170px',
+                border: '1px solid white',
+             }}
+          >Go to group page! </Button>
+        </FormControl>
+        </div>
         <div className="category_menu">
             <Button
                 variant="contained"

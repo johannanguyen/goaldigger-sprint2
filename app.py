@@ -334,7 +334,15 @@ def emit_google_info(channel):
         'allusers' : all_users
     })
 
-
+@server_socket.on("join")
+def join(data):
+    print(data)
+    row = db.session.query(models.GroupsUsers)\
+    .filter(models.GroupsUsers.group_id == data["groupId"], models.GroupsUsers.user_id == data["userId"]).first()
+    print("row",row)
+    if not row:
+        db.session.add(models.GroupsUsers(data["userId"], data["groupId"]))
+        db.session.commit()
 
 @server_socket.on("get_data")
 def on_data(category):
