@@ -42,6 +42,52 @@ export default function Content() {
       clientSocket.off('user goals', setUserGoals);
     };
   });
+  
+  
+  
+  
+   function makeComplete(task) {
+    //send index thorugh socket run alter table querary on backend where id = index
+    Socket.emit('new complete input', {
+      completion: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+
+  function makeDelete(task) {
+    Socket.emit('new delete input', {
+      deletion: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+  
+  function Heart(task) {
+    Socket.emit('new hearts input', {
+      heart: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+  
+  function Smiley(task) {
+    Socket.emit('new smileys input', {
+      smiley: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+  
+  function Thumb(task) {
+    Socket.emit('new thumbs input', {
+      thumb: task, // sends pName to socket
+    });
+    event.preventDefault();
+    console.log(task);
+  };
+  
+  
 
   return (
     <Router>
