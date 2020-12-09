@@ -71,12 +71,20 @@ class Goals(db.Model):
     date = db.Column(db.DateTime, default=datetime.now)
     post_text = db.Column(db.String())
     
-    def __init__(self, user_id, category, description, progress, post_text):
+    hearts = db.Column(db.String())
+    smileys = db.Column(db.String())
+    thumbs = db.Column(db.String())
+    
+    def __init__(self, user_id, category, description, progress, post_text, heart, smile, thumb):
         self.user_id = user_id
         self.category = category
         self.description = description
         self.progress = progress
         self.post_text = post_text
+        
+        self.hearts = heart
+        self.smileys = smile
+        self.thumbs = thumb
         
         
 class Groups(db.Model):
