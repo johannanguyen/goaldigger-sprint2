@@ -41,6 +41,22 @@ export default function GroupHome(props){
              }}>
             Home
             </Button>
+            <Button 
+            size="large" 
+            variant="contained"
+            color="primary"
+            onClick={() => {history.push('/addgroup')}}
+            // style={{ backgroundColor: '0e99b6' }}
+            style={{
+                backgroundColor: '0e99b6',
+                minHeight: '53px',
+                minWidth: '170px',
+                border: '1px solid white',
+             }}
+            >
+            Add Group
+            </Button>
+        
             {gNames.map((data,index)=>(
             <Button key={index} size="large" variant="contained" color="primary" onClick={()=> {history.push('/groups/'+data)}} 
             style={{

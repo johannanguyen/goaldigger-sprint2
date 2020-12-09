@@ -17,7 +17,7 @@ export default function GroupPage(props){
     const [groupGoals, setGroupGoals] = useState([]);
     const [groupInfo, setGroupInfo] = useState({});
     const title = "Welcome to " + groupName + "'s chatroom!"
-    const { placeholder, setPlaceholder } = useState("Type a message...")
+    var placeholder = "type something"
     const history = useHistory();
     const { hasLoaded, setLoaded} = useState(false)
 
@@ -67,7 +67,7 @@ export default function GroupPage(props){
     React.useEffect(() => {
         if(!Cookies.get("isLoggedIn")){
             toggleInputDisabled()
-            setPlaceholder("You need to login first!")
+            
         }
     }, []);
     
@@ -109,20 +109,7 @@ export default function GroupPage(props){
         </Button>
         <h2>Welcome to {groupName}'s group page!</h2>
         <div>This is our group's description: {groupInfo.group_description}</div>
-        <div className="category_menu">
-            <CategoryButton category="group1" />
-            <CategoryButton category="group2" />
-            <Button 
-            size="large" 
-            variant="contained"
-            color="primary"
-            onClick={() => {history.push('/addgroup')}}
-            // style={{ backgroundColor: '0e99b6' }}
-            style={{ backgroundColor: '7a8391' }} 
-            >
-            Add Group
-          </Button>
-        </div>
+        
         
         {groupGoals?
         <div className="homepage_container">
