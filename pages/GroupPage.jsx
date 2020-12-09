@@ -8,36 +8,38 @@ import { Chat, addResponseMessage, addUserMessage, toggleInputDisabled } from 'r
 import Cookies from 'js-cookie';
 import { Link }  from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import GoogleButton from '../scripts/GoogleButton'
+import './styles.css';
 
 export default function GroupPage(props){
-    const { user } = props;
-    const {path, url} = useRouteMatch();
-    let { groupName } = useParams();
+    const {path, url} = useRouteMatch()
+    let { groupName } = useParams()
     const [groupGoals, setGroupGoals] = useState([]);
     const [groupInfo, setGroupInfo] = useState({});
-    const title = "Welcome to " + groupName + "'s chatroom!";
-    var placeholder = "Type a message...";
+    const title = "Welcome to " + groupName + "'s chatroom!"
+    var placeholder = "type something"
     const history = useHistory();
+    const { hasLoaded, setLoaded} = useState(false)
 
-  //THIS IS SO FOR STUFF I WANT TO RUN ONLY ONCE ON CONNECT
-    
     useEffect(()=>{
         clientSocket.emit('group page', {"groupName": groupName})
     },[])
-
     
     function loadOldMessages(messages){
-        console.log(Cookies.get("user_id"));
-        messages.map((data)=>{
-            if (data.userId == Cookies.get("user_id")){
-                addUserMessage(data.message);
-            }
-            else{
-                let t = data.userId + ": " + data.message;
-                addResponseMessage(t);
-            }
-                
-        });
+        console.log("cookies user id", Cookies.get("user_id"))
+        console.log("cookies user obj", Cookies.get("userObj"))
+        if (!hasLoaded){
+            messages.map((data)=>{
+                if (data.userId == Cookies.get("user_id")){
+                    addUserMessage(data.message)
+                }
+                else{
+                    let t = data.userId + ": " + data.message
+                    addResponseMessage(t)
+                }
+            })
+            setLoaded(true)
+        }
     }
 
     function handleNewUserMessage(newUserMessage){
@@ -47,8 +49,7 @@ export default function GroupPage(props){
             "groupId": groupInfo.groupId,
             "newUserMessage": newUserMessage,
             "userId": Cookies.get("user_id")
-        });
-        
+        })
     }
     
     React.useEffect(()=>{
@@ -65,8 +66,8 @@ export default function GroupPage(props){
 
     React.useEffect(() => {
         if(!Cookies.get("isLoggedIn")){
-            toggleInputDisabled();
-            placeholder = "You need to login first!";
+            toggleInputDisabled()
+            
         }
     }, []);
     
@@ -89,7 +90,9 @@ export default function GroupPage(props){
     getGroupData();
     return (
     <div className="root_container">
-    
+        <div className="button_container">
+            <GoogleButton />
+        </div>
         <Button
             variant="contained"
             color="primary"
@@ -97,27 +100,30 @@ export default function GroupPage(props){
             style={{ backgroundColor: '0e99b6' }}>
         Home
         </Button>
-        
-        <h2>Welcome to {groupName}'s group page!</h2>
-        <div>This is our group's description: {groupInfo.group_description}</div>
-        <div className="category_menu">
-            <CategoryButton category="group1" />
-            <CategoryButton category="group2" />
-            <Button 
-            size="large" 
+        <Button
             variant="contained"
             color="primary"
-            onClick={() => {history.push('/addgroup')}}
-            // style={{ backgroundColor: '0e99b6' }}
-            style={{ backgroundColor: '7a8391' }} 
-            >
-            Add Group
-          </Button>
-        </div>
+            onClick={() => {history.push('/groups')}}
+            style={{ backgroundColor: '0e99b6' }}>
+        Groups
+        </Button>
+        <h2>Welcome to {groupName}'s group page!</h2>
+        <Button
+            variant="contained"
+            color="primary"
+            onClick={()=>{
+                clientSocket.emit("join", {"groupId": groupInfo.groupId, "userId": Cookies.get("user_id")}) 
+                console.log("joined groupid: ", groupInfo.groupId, Cookies.get("user_id"))
+            }}
+            style={{ backgroundColor: '0e99b6' }}>
+        Join
+        </Button>
+        <div>This is our group's description: {groupInfo.group_description}</div>
+        
         
         {groupGoals?
         <div className="homepage_container">
-            <ScrollToBottom>
+            
             { groupGoals.map((data, index) => (
               <div key={index}>
                 <Avatar src={data.img_url} />
@@ -137,11 +143,11 @@ export default function GroupPage(props){
                 "
               </div>
             )) }
-            </ScrollToBottom>
+            
         </div>
         : <div>Error 404! This group doesn't exist</div>
         }
-        <div>This is the sidebar text that should go as a right-sided column: {groupInfo.sidebar_text}</div>
+        
         <Chat 
         handleNewUserMessage={handleNewUserMessage}
         title={title}
